@@ -28,12 +28,12 @@ export interface CatalogRecipe {
   steps: string[];
 }
 
-const SEL: CatalogIngredient = { name: 'Sel', text: '1 pincée', category: 'other', staple: true };
-const POIVRE: CatalogIngredient = { name: 'Poivre', text: '1 pincée', category: 'other', staple: true };
-const HUILE: CatalogIngredient = { name: "Huile d'olive", text: '1 c. à soupe', category: 'other', staple: true, match: ['huile'] };
-const BEURRE_BASE: CatalogIngredient = { name: 'Beurre', quantity: 20, unit: 'g', category: 'dairy', staple: true };
-const PATES = ['pates', 'spaghetti', 'penne', 'coquillette', 'tagliatelle', 'fusilli', 'macaroni', 'farfalle', 'linguine'];
-const FROMAGE_RAPE = ['emmental', 'gruyere', 'comte', 'fromage rape', 'parmesan'];
+export const SEL: CatalogIngredient = { name: 'Sel', text: '1 pincée', category: 'other', staple: true };
+export const POIVRE: CatalogIngredient = { name: 'Poivre', text: '1 pincée', category: 'other', staple: true };
+export const HUILE: CatalogIngredient = { name: "Huile d'olive", text: '1 c. à soupe', category: 'other', staple: true, match: ['huile'] };
+export const BEURRE_BASE: CatalogIngredient = { name: 'Beurre', quantity: 20, unit: 'g', category: 'dairy', staple: true };
+export const PATES = ['pates', 'spaghetti', 'penne', 'coquillette', 'tagliatelle', 'fusilli', 'macaroni', 'farfalle', 'linguine'];
+export const FROMAGE_RAPE = ['emmental', 'gruyere', 'comte', 'fromage rape', 'parmesan'];
 
 export const RECIPES_FR: CatalogRecipe[] = [
   // ---------------------------------------------------------------- Petits-déjeuners

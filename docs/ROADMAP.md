@@ -105,7 +105,7 @@ Détails et mise en place : [BILLING.md](BILLING.md).
 
 ## ✅ Recettes et planning 100 % gratuits (18/11/2026)
 
-- Moteur de recettes sans IA : base de 39 recettes originales (petits-déjeuners, plats, végétarien, poisson, desserts), choisies selon le stock réel
+- Moteur de recettes sans IA : base de 96 recettes originales (petits-déjeuners, plats, végétarien, poisson, desserts), choisies selon le stock réel
 - Mêmes garanties : liens vérifiés vers les vrais aliments du stock, allergies de tout le foyer, régimes, aliments non aimés, filtres stricts, priorité anti-gaspi, quantités adaptées au nombre de personnes, variété (idées récentes reléguées)
 - Le planning de la semaine utilise le même moteur ; plus aucune clé d'IA nécessaire
 

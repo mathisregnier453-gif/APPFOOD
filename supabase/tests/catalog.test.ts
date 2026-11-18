@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { CatalogRecipeProvider, suggestFromCatalog } from '../functions/_shared/catalog/engine.ts';
-import { RECIPES_FR } from '../functions/_shared/catalog/recipes-fr.ts';
+import { ALL_RECIPES as RECIPES_FR } from '../functions/_shared/catalog/engine.ts';
 import type { InventoryEntry, RecipeFilters } from '../functions/_shared/ai/types.ts';
 
 const inventory: InventoryEntry[] = [
@@ -17,7 +17,7 @@ const noPrefs = { diets: [], allergies: [], dislikes: [] };
 const fixed = () => 0.5;
 
 test('la base de recettes est complète et cohérente', () => {
-  assert.ok(RECIPES_FR.length >= 35);
+  assert.ok(RECIPES_FR.length >= 95);
   const ids = new Set(RECIPES_FR.map((r) => r.id));
   assert.equal(ids.size, RECIPES_FR.length, 'identifiants uniques');
   for (const r of RECIPES_FR) {
@@ -83,4 +83,10 @@ test('stock vide : aucune idée inventée ; fournisseur à coût nul', async () 
   assert.equal(res.usage.costUsd, 0);
   assert.equal(res.usage.provider, 'catalog');
   assert.equal(res.recipes.length, 3);
+});
+
+test('les recettes végétariennes ne contiennent ni viande ni poisson', () => {
+  for (const r of RECIPES_FR.filter((x) => x.tags.includes('végétarien'))) {
+    for (const i of r.ingredients) assert.ok(i.category !== 'meat' && i.category !== 'fish', `${r.id} : ${i.name}`);
+  }
 });

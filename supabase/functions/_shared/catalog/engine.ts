@@ -11,6 +11,9 @@ import type {
   AiUsage, FoodUnit, GeneratedIngredient, GeneratedRecipe, InventoryEntry, RecipeGenerationResult, RecipeProvider, RecipeRequest,
 } from '../ai/types.ts';
 import { type CatalogIngredient, type CatalogRecipe, RECIPES_FR } from './recipes-fr.ts';
+import { RECIPES_FR_2 } from './recipes-fr-2.ts';
+
+export const ALL_RECIPES: CatalogRecipe[] = [...RECIPES_FR, ...RECIPES_FR_2];
 
 export const CATALOG_VERSION = 'sauge-recettes-fr-v1';
 const BASE_SERVINGS = 2;
@@ -79,7 +82,7 @@ function dislikes(recipe: GeneratedRecipe, list: string[]): boolean {
   return list.map(normalizeText).filter((d) => d.length >= 3).some((d) => texts.some((t) => t.includes(d)));
 }
 
-export function suggestFromCatalog(req: CatalogRequest, catalog: CatalogRecipe[] = RECIPES_FR): { recipes: GeneratedRecipe[]; rejected: number } {
+export function suggestFromCatalog(req: CatalogRequest, catalog: CatalogRecipe[] = ALL_RECIPES): { recipes: GeneratedRecipe[]; rejected: number } {
   const f = req.filters;
   const random = req.random ?? Math.random;
   const exclude = new Set((req.excludeTitles ?? []).map(normalizeText));
