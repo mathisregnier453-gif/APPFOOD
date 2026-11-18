@@ -20,6 +20,9 @@ React Native + Expo SDK 58 + TypeScript + Expo Router · Supabase (Auth, Postgre
 
 ## Démarrage
 
+> Le backend de production est déjà déployé (projet `fnkoiofhvgpgqvocnwcc`) : voir l'état dans [docs/OPERATIONS.md](docs/OPERATIONS.md). Les étapes ci-dessous servent à recréer un environnement.
+
+
 Prérequis : Node 22+, [Supabase CLI](https://supabase.com/docs/guides/cli), un compte Supabase, une clé API du fournisseur IA.
 
 ```bash

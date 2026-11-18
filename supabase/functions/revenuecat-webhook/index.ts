@@ -4,13 +4,16 @@
 // - Idempotent : chaque événement n'est traité qu'une fois (table revenuecat_events).
 // - Les droits sont recalculés depuis l'API RevenueCat (ordre des événements sans importance).
 // - En cas d'erreur, réponse 500 : RevenueCat renvoie l'événement plus tard.
-import { adminClient, errorResponse, json, logServerError, requireEnv } from '../_shared/http.ts';
+import { adminClient, env, errorResponse, json, logServerError } from '../_shared/http.ts';
 import { affectedUserIds, safeEqual } from '../_shared/revenuecat.ts';
 import { syncUserSubscription } from '../_shared/subscriptions.ts';
 
 Deno.serve(async (req) => {
   if (req.method !== 'POST') return errorResponse(405, 'method_not_allowed');
-  if (!safeEqual(req.headers.get('Authorization') ?? '', requireEnv('REVENUECAT_WEBHOOK_AUTH'))) {
+  // Tant que le secret n'est pas configuré, on refuse proprement (RevenueCat réessaiera plus tard).
+  const expected = env('REVENUECAT_WEBHOOK_AUTH');
+  if (!expected) return errorResponse(503, 'not_configured');
+  if (!safeEqual(req.headers.get('Authorization') ?? '', expected)) {
     return errorResponse(401, 'unauthorized');
   }
 

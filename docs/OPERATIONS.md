@@ -1,11 +1,24 @@
 # Exploitation
 
+## État du déploiement (projet Supabase `fnkoiofhvgpgqvocnwcc`, région eu-central-1)
+
+| Élément | État |
+|---|---|
+| Schéma (8 migrations) | ✅ appliqué, historique dans `supabase_migrations.schema_migrations` |
+| Sécurité | ✅ RLS sur les 32 tables, bucket photos privé, RPC serveur fermées aux clients (vérifié en production) |
+| Edge functions (9) | ✅ déployées et actives |
+| Secrets des fonctions | ✅ `CRON_SECRET`, `AI_PROVIDER`, `AI_*_EFFORT`, `SCAN_PHOTO_RETENTION_DAYS` — ⏳ `ANTHROPIC_API_KEY`, `REVENUECAT_SECRET_KEY`, `REVENUECAT_WEBHOOK_AUTH` à ajouter |
+| Tâches planifiées | ✅ actives (`supabase/ops/scheduled_jobs.sql`), appel de bout en bout vérifié |
+| App (`.env`) | ✅ URL + clé publiable (`sb_publishable_…`) |
+
+Redéployer : `cd supabase && SUPABASE_ACCESS_TOKEN=sbp_... python3 scripts/migrate.py` puis `python3 scripts/deploy_functions.py` (toutes les fonctions, ou les noms passés en arguments). La CLI officielle (`supabase db push`, `supabase functions deploy`) reste utilisable : l'historique des migrations est compatible.
+
 ## Tâches planifiées
 
 | Tâche | Fréquence | Comment |
 |---|---|---|
-| `push-dispatch` | chaque minute | Supabase Cron → POST vers l'edge function, en-tête `x-cron-secret` |
-| `purge-scan-photos` | toutes les heures | idem |
+| `push-dispatch` | chaque minute | pg_cron → `call_scheduled_function()` (pg_net, secret lu dans Vault) |
+| `purge-scan-photos` | toutes les heures (minute 7) | idem |
 | Agrégation des coûts IA + rétention | chaque nuit | SQL ci-dessous (pg_cron) |
 
 ```sql
