@@ -13,3 +13,5 @@ android/
 expo-env.d.ts
 supabase/.temp/
 supabase/.branches/
+__pycache__/
+*.pyc
