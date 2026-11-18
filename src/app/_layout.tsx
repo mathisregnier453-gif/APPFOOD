@@ -1,5 +1,5 @@
 import * as Notifications from 'expo-notifications';
-import { router, Stack } from 'expo-router';
+import { router, Stack, useSegments } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
@@ -38,10 +38,21 @@ function RootNavigator() {
     return () => sub.remove();
   }, []);
 
-  if (loading) return null;
-
   const signedIn = !!session;
   const consented = !!profile?.privacy_consent_at;
+  const segments = useSegments();
+
+  // Redirection explicite selon l'état : sans elle, l'URL "/" (onglets protégés)
+  // n'a aucun écran pour un visiteur non connecté ("Unmatched Route").
+  useEffect(() => {
+    if (loading || (signedIn && !profile)) return;
+    const area = segments[0];
+    if (!signedIn && area !== '(auth)') router.replace('/sign-in');
+    else if (signedIn && !consented && area !== 'onboarding') router.replace('/onboarding/consent');
+    else if (signedIn && consented && (area === '(auth)' || area === 'onboarding')) router.replace('/');
+  }, [loading, signedIn, consented, profile, segments]);
+
+  if (loading) return null;
 
   return (
     <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.background } }}>
