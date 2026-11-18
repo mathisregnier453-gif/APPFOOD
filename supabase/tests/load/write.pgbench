@@ -1,0 +1,10 @@
+-- Parcours "écriture" : ajout d'un aliment puis consommation (RLS + RPC).
+\set n random(1, 10000)
+BEGIN;
+SELECT id AS uid, household AS hid FROM public.load_users WHERE n = :n \gset
+SELECT id AS loc FROM public.storage_locations WHERE household_id = ':hid' AND kind = 'pantry' \gset
+SELECT set_config('request.jwt.claim.sub', ':uid', true);
+SET LOCAL ROLE authenticated;
+INSERT INTO public.food_items (household_id, storage_location_id, name, quantity, unit) VALUES (':hid', ':loc', 'Riz', 2, 'kg') RETURNING id AS fid \gset
+SELECT public.update_item_quantity(':fid', 1.5, 'consumed');
+END;

@@ -1,25 +1,92 @@
 {
   "expo": {
-    "name": "sauge",
+    "name": "Sauge",
     "slug": "sauge",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false,
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      },
+      "bundleIdentifier": "com.sauge.app",
+      "buildNumber": "1",
+      "config": {
+        "usesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
+        "backgroundColor": "#F7F5F0",
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.sauge.app",
+      "versionCode": 1,
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.POST_NOTIFICATIONS"
+      ],
+      "blockedPermissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.ACCESS_FINE_LOCATION"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      "expo-image",
+      "expo-localization",
+      [
+        "expo-image-picker",
+        {
+          "cameraPermission": "Sauge utilise l'appareil photo pour photographier votre réfrigérateur, congélateur ou placards et reconnaître les aliments.",
+          "photosPermission": "Sauge accède à vos photos uniquement si vous choisissez d'importer une photo de votre frigo."
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "color": "#7A9A7E"
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Sauge utilise l'appareil photo pour scanner vos aliments et lire les codes-barres.",
+          "recordAudioAndroid": false
+        }
+      ],
+      [
+        "@sentry/react-native/expo",
+        {
+          "url": "https://sentry.io/",
+          "organization": "A_RENSEIGNER",
+          "project": "sauge"
+        }
+      ]
+    ],
+    "scheme": "sauge",
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "privacyPolicyUrl": "https://example.invalid/confidentialite",
+      "termsUrl": "https://example.invalid/conditions",
+      "supportEmail": "support@example.invalid"
+    },
+    "description": "Scannez votre frigo, suivez vos aliments, cuisinez ce que vous avez et faites des courses malignes.",
+    "runtimeVersion": {
+      "policy": "appVersion"
     }
   }
 }

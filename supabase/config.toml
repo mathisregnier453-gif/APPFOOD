@@ -1,0 +1,32 @@
+# Configuration Supabase CLI (extrait). `supabase init` peut compléter ce fichier.
+project_id = "sauge"
+
+[functions.scan-analyze]
+verify_jwt = true
+
+[functions.delete-account]
+verify_jwt = true
+
+[functions.purge-scan-photos]
+# Appelée par une tâche planifiée avec l'en-tête x-cron-secret.
+verify_jwt = false
+
+[functions.recipes-generate]
+verify_jwt = true
+
+[functions.meal-plan-generate]
+verify_jwt = true
+
+[functions.barcode-lookup]
+verify_jwt = true
+
+[functions.subscription-sync]
+verify_jwt = true
+
+[functions.revenuecat-webhook]
+# Appelée par RevenueCat : authentifiée par REVENUECAT_WEBHOOK_AUTH, pas par un JWT utilisateur.
+verify_jwt = false
+
+[functions.push-dispatch]
+# Tâche planifiée (chaque minute), en-tête x-cron-secret.
+verify_jwt = false

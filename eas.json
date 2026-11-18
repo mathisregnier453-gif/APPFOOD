@@ -1,0 +1,25 @@
+{
+  "cli": { "version": ">= 16.0.0", "appVersionSource": "remote" },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "env": { "SENTRY_DISABLE_AUTO_UPLOAD": "true" }
+    },
+    "preview": {
+      "distribution": "internal",
+      "channel": "preview",
+      "env": { "SENTRY_DISABLE_AUTO_UPLOAD": "true" }
+    },
+    "production": {
+      "channel": "production",
+      "autoIncrement": true
+    }
+  },
+  "submit": {
+    "production": {
+      "ios": { "ascAppId": "A_RENSEIGNER" },
+      "android": { "track": "internal", "releaseStatus": "draft" }
+    }
+  }
+}

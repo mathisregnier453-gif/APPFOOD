@@ -1,0 +1,10 @@
+-- Parcours "ouverture de l'app" : stock, quota, liste de courses (RLS actif).
+\set n random(1, 10000)
+BEGIN;
+SELECT id AS uid, household AS hid FROM public.load_users WHERE n = :n \gset
+SELECT set_config('request.jwt.claim.sub', ':uid', true);
+SET LOCAL ROLE authenticated;
+SELECT id, name, quantity, unit, expiry_date FROM public.food_items WHERE household_id = ':hid' AND finished_at IS NULL ORDER BY expiry_date NULLS LAST, name LIMIT 120;
+SELECT * FROM public.get_quota_status(':hid');
+SELECT id, name, is_checked FROM public.shopping_list_items WHERE household_id = ':hid';
+END;
