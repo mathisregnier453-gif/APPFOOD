@@ -1,25 +1,49 @@
 {
-  "cli": { "version": ">= 16.0.0", "appVersionSource": "remote" },
+  "cli": {
+    "version": ">= 16.0.0",
+    "appVersionSource": "remote"
+  },
   "build": {
     "development": {
       "developmentClient": true,
       "distribution": "internal",
-      "env": { "SENTRY_DISABLE_AUTO_UPLOAD": "true" }
+      "env": {
+        "SENTRY_DISABLE_AUTO_UPLOAD": "true",
+        "EXPO_PUBLIC_SUPABASE_URL": "https://fnkoiofhvgpgqvocnwcc.supabase.co",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "sb_publishable_PnyUbglPR0wB7hnGkKGd4A_XijTjyel"
+      },
+      "android": {
+        "buildType": "apk"
+      }
     },
     "preview": {
       "distribution": "internal",
-      "channel": "preview",
-      "env": { "SENTRY_DISABLE_AUTO_UPLOAD": "true" }
+      "env": {
+        "SENTRY_DISABLE_AUTO_UPLOAD": "true",
+        "EXPO_PUBLIC_SUPABASE_URL": "https://fnkoiofhvgpgqvocnwcc.supabase.co",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "sb_publishable_PnyUbglPR0wB7hnGkKGd4A_XijTjyel"
+      },
+      "android": {
+        "buildType": "apk"
+      }
     },
     "production": {
-      "channel": "production",
-      "autoIncrement": true
+      "autoIncrement": true,
+      "env": {
+        "EXPO_PUBLIC_SUPABASE_URL": "https://fnkoiofhvgpgqvocnwcc.supabase.co",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "sb_publishable_PnyUbglPR0wB7hnGkKGd4A_XijTjyel"
+      }
     }
   },
   "submit": {
     "production": {
-      "ios": { "ascAppId": "A_RENSEIGNER" },
-      "android": { "track": "internal", "releaseStatus": "draft" }
+      "ios": {
+        "ascAppId": "A_RENSEIGNER"
+      },
+      "android": {
+        "track": "internal",
+        "releaseStatus": "draft"
+      }
     }
   }
 }
