@@ -81,8 +81,8 @@
       "typedRoutes": true
     },
     "extra": {
-      "privacyPolicyUrl": "https://example.invalid/confidentialite",
-      "termsUrl": "https://example.invalid/conditions",
+      "privacyPolicyUrl": "https://mathisregnier453-gif.github.io/APPFOOD/confidentialite.html",
+      "termsUrl": "https://mathisregnier453-gif.github.io/APPFOOD/conditions.html",
       "supportEmail": "support@example.invalid",
       "router": {
         "asyncRoutes": {
