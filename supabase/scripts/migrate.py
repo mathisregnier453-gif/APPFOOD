@@ -1,5 +1,5 @@
 # Déploiement via l'API de gestion Supabase (sans la CLI).
-# Usage : SUPABASE_ACCESS_TOKEN=sbp_... SUPABASE_PROJECT_REF=xxxx cd supabase && python3 scripts/migrate.py
+# Usage : cd supabase && SUPABASE_ACCESS_TOKEN=sbp_... SUPABASE_PROJECT_REF=xxxx python3 scripts/migrate.py
 import glob, os, sys
 sys.path.insert(0, os.path.dirname(__file__))
 from sbquery import query

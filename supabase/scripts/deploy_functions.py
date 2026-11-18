@@ -1,5 +1,5 @@
 # Déploiement via l'API de gestion Supabase (sans la CLI).
-# Usage : SUPABASE_ACCESS_TOKEN=sbp_... SUPABASE_PROJECT_REF=xxxx cd supabase && python3 scripts/deploy_functions.py
+# Usage : cd supabase && SUPABASE_ACCESS_TOKEN=sbp_... SUPABASE_PROJECT_REF=xxxx python3 scripts/deploy_functions.py
 import glob, json, os, sys, uuid, urllib.request, tomllib
 REF = os.environ.get("SUPABASE_PROJECT_REF", "fnkoiofhvgpgqvocnwcc")
 TOKEN = os.environ.get("SUPABASE_ACCESS_TOKEN", "proxy-injected")
