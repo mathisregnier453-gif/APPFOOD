@@ -29,7 +29,8 @@
       "versionCode": 1,
       "permissions": [
         "android.permission.CAMERA",
-        "android.permission.POST_NOTIFICATIONS"
+        "android.permission.POST_NOTIFICATIONS",
+        "android.permission.RECORD_AUDIO"
       ],
       "blockedPermissions": [
         "android.permission.RECORD_AUDIO",
@@ -82,11 +83,20 @@
     "extra": {
       "privacyPolicyUrl": "https://example.invalid/confidentialite",
       "termsUrl": "https://example.invalid/conditions",
-      "supportEmail": "support@example.invalid"
+      "supportEmail": "support@example.invalid",
+      "router": {
+        "asyncRoutes": {
+          "web": true
+        }
+      },
+      "eas": {
+        "projectId": "9e658e44-f8c3-4712-8977-4fcc9169c92e"
+      }
     },
     "description": "Scannez votre frigo, suivez vos aliments, cuisinez ce que vous avez et faites des courses malignes.",
     "runtimeVersion": {
       "policy": "appVersion"
-    }
+    },
+    "owner": "sauge"
   }
 }
