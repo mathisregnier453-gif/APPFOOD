@@ -38,6 +38,7 @@ export default function SignInScreen() {
           {error && <Banner tone="danger">{error}</Banner>}
           <Button label="Se connecter" onPress={submit} loading={loading} disabled={!email || !password} />
           <Link href="/(auth)/sign-up" style={styles.link}>Créer un compte</Link>
+          <Link href="/(auth)/forgot-password" style={[styles.link, { color: colors.textMuted, fontWeight: '500', paddingVertical: 0 }]}>Mot de passe oublié ?</Link>
         </View>
       </Screen>
     </KeyboardAvoidingView>
