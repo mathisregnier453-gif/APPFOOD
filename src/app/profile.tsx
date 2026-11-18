@@ -100,7 +100,7 @@ export default function ProfileScreen() {
       <Card style={{ gap: spacing.md }}>
         <View style={styles.rowBetween}>
           <Text style={typography.heading}>Offre {quota ? PLAN_LABEL[quota.plan] : ''}</Text>
-          <Text style={typography.caption}>{used} / {limit} recettes IA</Text>
+          <Text style={typography.caption}>{used} / {limit} idées de recettes</Text>
         </View>
         <View style={styles.track}><View style={[styles.fill, { width: `${ratio * 100}%` }]} /></View>
         <Text style={typography.caption}>

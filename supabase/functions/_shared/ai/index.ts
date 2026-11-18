@@ -1,10 +1,13 @@
-// Point d'entrée unique de la couche IA. Fournisseur et modèles se choisissent
-// par variables d'environnement (secrets Supabase), sans toucher à l'app :
-//   AI_PROVIDER=anthropic
+// Point d'entrée unique de la couche IA. Par défaut l'application n'utilise
+// AUCUNE IA payante : recettes et planning passent par le moteur « catalog ».
+// Fournisseurs optionnels, par variables d'environnement (secrets Supabase) :
+//   AI_RECIPE_PROVIDER=catalog (défaut) | anthropic
+//   AI_PROVIDER=anthropic              (scan photo, désactivé dans l'app)
 //   AI_VISION_MODEL=claude-opus-5-5    AI_VISION_EFFORT=low
 //   AI_RECIPE_MODEL=claude-opus-5-5    AI_RECIPE_EFFORT=low
 //   ANTHROPIC_API_KEY=...              (jamais dans l'app mobile)
 // Voir docs/AI_COSTS.md pour le choix des modèles.
+import { CatalogRecipeProvider } from '../catalog/engine.ts';
 import { AnthropicRecipeProvider, AnthropicVisionProvider, type Effort } from './providers/anthropic.ts';
 import { AiProviderError, type FoodVisionProvider, type RecipeProvider } from './types.ts';
 
@@ -47,9 +50,14 @@ export function getVisionProvider(env: Env): FoodVisionProvider {
   }
 }
 
+// Recettes : moteur gratuit sur la base Sauge par défaut (aucune IA payante).
+// AI_RECIPE_PROVIDER=anthropic réactive l'ancien moteur IA si besoin.
 export function getRecipeProvider(env: Env): RecipeProvider {
   if (recipes) return recipes;
-  switch (provider(env)) {
+  switch (env('AI_RECIPE_PROVIDER') ?? 'catalog') {
+    case 'catalog':
+      recipes = new CatalogRecipeProvider();
+      return recipes;
     case 'anthropic':
       recipes = new AnthropicRecipeProvider({
         apiKey: anthropicKey(env),
@@ -58,6 +66,6 @@ export function getRecipeProvider(env: Env): RecipeProvider {
       });
       return recipes;
     default:
-      throw new AiProviderError('config', `Fournisseur IA inconnu : ${provider(env)}`);
+      throw new AiProviderError('config', `Fournisseur de recettes inconnu : ${env('AI_RECIPE_PROVIDER')}`);
   }
 }

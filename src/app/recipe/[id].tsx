@@ -176,7 +176,7 @@ export default function RecipeScreen() {
             Recette filtrée selon vos allergies déclarées. Vérifiez toujours la composition sur les étiquettes des produits.
           </Text>
         )}
-        <Text style={[typography.caption, { color: colors.textFaint }]}>Recette générée par IA : adaptez les cuissons et assaisonnements à votre goût.</Text>
+        <Text style={[typography.caption, { color: colors.textFaint }]}>Recette de la base Sauge, choisie selon votre stock : adaptez cuissons et assaisonnements à votre goût.</Text>
 
         <View style={{ gap: spacing.sm }}>
           <Button label="J'ai cuisiné cette recette" icon="flame-outline" onPress={() => router.push({ pathname: '/recipe/cook', params: { id: recipe.id } })} />

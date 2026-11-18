@@ -68,7 +68,7 @@ export type PaywallReason = 'scan_quota' | 'recipe_quota' | 'favorites' | 'meal_
 
 export const REASON_COPY: Record<PaywallReason, { title: string; subtitle: string }> = {
   scan_quota: { title: 'Passez à la vitesse supérieure', subtitle: 'Recettes sans compter, planning de la semaine, foyer partagé.' },
-  recipe_quota: { title: 'Plus d\'idées de recettes', subtitle: 'Vos 10 recettes du mois sont utilisées. Avec Premium, les recettes sont illimitées (usage raisonnable).' },
+  recipe_quota: { title: 'Plus d\'idées de recettes', subtitle: 'Vos 10 idées de recettes du mois sont utilisées. Avec Premium, elles sont illimitées.' },
   favorites: { title: 'Gardez vos recettes préférées', subtitle: 'Les favoris font partie de Premium.' },
   meal_plan: { title: 'Organisez votre semaine', subtitle: 'Planning des repas, génération automatique et liste de courses de la semaine avec Premium.' },
   history: { title: 'Suivez votre consommation', subtitle: 'L\'historique de consommation fait partie de Premium.' },
@@ -81,7 +81,7 @@ export const REASON_COPY: Record<PaywallReason, { title: string; subtitle: strin
 export function featureLines(plan: PlanRow, opts: { aiPhotoScan?: boolean } = {}): string[] {
   const lines = [
     ...(opts.aiPhotoScan ? [`${plan.monthly_scan_quota} scans IA par mois${plan.code === 'family' ? ' pour le foyer' : ''}`] : []),
-    plan.monthly_recipe_quota === null ? 'Recettes IA illimitées (usage raisonnable)' : `${plan.monthly_recipe_quota} recettes IA par mois`,
+    plan.monthly_recipe_quota === null ? 'Idées de recettes illimitées' : `${plan.monthly_recipe_quota} idées de recettes par mois`,
   ];
   if (plan.features.meal_plan) lines.push('Planning de la semaine et liste de courses automatique');
   if (plan.features.smart_notifications) lines.push('Rappels intelligents (repas, ingrédients manquants, délai personnalisé)');

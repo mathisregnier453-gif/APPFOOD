@@ -31,7 +31,7 @@ test('comparatif généré depuis la table des offres', () => {
   const premium = featureLines(plans[1]);
   assert.ok(!premium.some((l) => l.includes('scans')), 'scanner gratuit : aucun quota de scans affiché');
   assert.equal(featureLines(plans[1], { aiPhotoScan: true })[0], '30 scans IA par mois');
-  assert.ok(premium.includes('Recettes IA illimitées (usage raisonnable)'));
+  assert.ok(premium.includes('Idées de recettes illimitées'));
   assert.ok(featureLines(plans[2]).some((l) => l.includes('6 personnes')));
-  assert.equal(featureLines(plans[0])[0], '10 recettes IA par mois');
+  assert.equal(featureLines(plans[0])[0], '10 idées de recettes par mois');
 });

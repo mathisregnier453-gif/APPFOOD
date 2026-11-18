@@ -102,3 +102,11 @@ Détails et mise en place : [BILLING.md](BILLING.md).
 
 **Vérifié** : 33 tests unitaires app (dont tickets et dates), 151 tests SQL, migration appliquée en production, bundle Android.
 **Non vérifié** : OCR sur appareil réel (nécessite la version compilée) — à tester sur de vrais tickets et emballages.
+
+## ✅ Recettes et planning 100 % gratuits (18/11/2026)
+
+- Moteur de recettes sans IA : base de 39 recettes originales (petits-déjeuners, plats, végétarien, poisson, desserts), choisies selon le stock réel
+- Mêmes garanties : liens vérifiés vers les vrais aliments du stock, allergies de tout le foyer, régimes, aliments non aimés, filtres stricts, priorité anti-gaspi, quantités adaptées au nombre de personnes, variété (idées récentes reléguées)
+- Le planning de la semaine utilise le même moteur ; plus aucune clé d'IA nécessaire
+
+**À faire** : enrichir la base de recettes (objectif 150+) — c'est désormais le principal levier de qualité.

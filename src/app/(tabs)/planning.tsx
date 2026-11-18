@@ -78,7 +78,7 @@ export default function PlanningScreen() {
         <EmptyState
           icon="calendar-outline"
           title="Organisez votre semaine"
-          message="Planifiez vos repas, laissez l'IA composer la semaine avec ce que vous avez, et obtenez la liste de courses en un geste."
+          message="Planifiez vos repas, laissez Sauge composer la semaine avec ce que vous avez, et obtenez la liste de courses en un geste."
         >
           <Button label="Découvrir Premium" icon="sparkles-outline" onPress={() => openPaywall('meal_plan')} />
         </EmptyState>
@@ -93,7 +93,7 @@ export default function PlanningScreen() {
     <Screen>
       <View style={styles.header}>
         <Text style={typography.title}>Planning</Text>
-        <Pressable onPress={() => router.push({ pathname: '/planning/generate', params: { start: monday < today ? today : monday } })} style={styles.aiBtn} accessibilityLabel="Générer la semaine avec l'IA">
+        <Pressable onPress={() => router.push({ pathname: '/planning/generate', params: { start: monday < today ? today : monday } })} style={styles.aiBtn} accessibilityLabel="Composer la semaine automatiquement">
           <Ionicons name="sparkles" size={16} color="#fff" />
           <Text style={styles.aiLabel}>Générer</Text>
         </Pressable>

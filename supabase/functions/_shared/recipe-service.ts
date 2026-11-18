@@ -112,8 +112,12 @@ export async function generateAndStore(
   let usage: AiUsage | undefined;
   let refunded = 0;
   try {
+    // Idées proposées ces 14 derniers jours : le moteur en propose d'autres en priorité.
+    const { data: recent } = await admin.from('recipes').select('title')
+      .eq('household_id', opts.householdId).gte('created_at', new Date(Date.now() - 14 * 86_400_000).toISOString()).limit(200);
     const result = await getRecipeProvider(env).generateRecipes({
       inventory: ctx.inventory, filters: opts.filters, preferences: ctx.preferences, count: granted, today: ctx.today,
+      excludeTitles: (recent ?? []).map((r) => r.title as string),
     });
     usage = result.usage;
     const delivered = result.recipes.length;

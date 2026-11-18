@@ -119,6 +119,8 @@ export interface RecipeRequest {
   preferences: DietaryProfile;
   count: number;
   today: string;
+  /** titres proposés récemment au foyer (le moteur varie ses idées) */
+  excludeTitles?: string[];
 }
 
 export interface GeneratedIngredient {
