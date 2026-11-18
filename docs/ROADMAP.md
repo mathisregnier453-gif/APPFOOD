@@ -92,3 +92,13 @@ Détails et mise en place : [BILLING.md](BILLING.md).
 
 **Vérifié** : typecheck, 63 tests unitaires, 142 tests SQL, test de charge, bundle iOS Metro, configuration Expo valide.
 **Non vérifié** : builds natifs EAS, appareils réels, services externes (IA, RevenueCat, Expo Push, Sentry, PostHog, Open Food Facts) — nécessitent les comptes et clés.
+
+## ✅ Scanner 100 % gratuit (18/11/2026)
+
+- Codes-barres en rafale, ticket de caisse (OCR local), lecture des dates de péremption (OCR local), saisie manuelle
+- Aucun appel d'IA payante pour le stock ; le scan photo par IA reste désactivable par configuration
+- Mesure de qualité (corrections, suppressions) et nouvelle section *Scanner* du tableau de bord admin
+- Offres : le scanner est gratuit et illimité pour tous ; les offres payantes portent sur les recettes, le planning, les favoris, l'historique et le foyer
+
+**Vérifié** : 33 tests unitaires app (dont tickets et dates), 151 tests SQL, migration appliquée en production, bundle Android.
+**Non vérifié** : OCR sur appareil réel (nécessite la version compilée) — à tester sur de vrais tickets et emballages.

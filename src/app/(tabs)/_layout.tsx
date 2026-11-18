@@ -10,7 +10,7 @@ function ScanButton() {
     <View style={styles.fabWrap} pointerEvents="box-none">
       <Pressable
         accessibilityRole="button"
-        accessibilityLabel="Scanner mon frigo"
+        accessibilityLabel="Ajouter des aliments"
         onPress={() => {
           void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
           router.push('/scan');

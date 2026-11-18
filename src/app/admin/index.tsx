@@ -3,7 +3,7 @@ import { router, Stack, useFocusEffect } from 'expo-router';
 import { useCallback, useState } from 'react';
 import { ActivityIndicator, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Banner, Card, Chip, SectionTitle } from '@/components/ui';
-import { type Dashboard, eur, fetchDashboard, pct } from '@/features/admin/api';
+import { type CaptureStats, type Dashboard, eur, fetchCaptureStats, fetchDashboard, pct } from '@/features/admin/api';
 import { addDaysIso } from '@/lib/dates';
 import { localTodayIso } from '@/lib/expiry';
 import { colors, radius, spacing, typography } from '@/theme';
@@ -35,6 +35,7 @@ function Tile({ label, value, hint, tone }: { label: string; value: string; hint
 export default function AdminDashboard() {
   const [period, setPeriod] = useState<(typeof PERIODS)[number]['id']>('30');
   const [data, setData] = useState<Dashboard | null>(null);
+  const [capture, setCapture] = useState<CaptureStats | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -43,7 +44,9 @@ export default function AdminDashboard() {
     setError(null);
     try {
       const [from, to] = range(period);
-      setData(await fetchDashboard(from, to));
+      const [d, c] = await Promise.all([fetchDashboard(from, to), fetchCaptureStats(from, to)]);
+      setData(d);
+      setCapture(c);
     } catch {
       setError('Tableau de bord indisponible (droits administrateur requis).');
     } finally {
@@ -75,6 +78,20 @@ export default function AdminDashboard() {
               <Tile label="Marge / Premium" value={eur(data.margin.per_premium_sub_month_eur)} hint={`objectif ${eur(data.margin.target_eur)}`} tone={belowTarget ? 'warning' : undefined} />
               <Tile label="Prix Premium net" value={eur(data.margin.premium_net_price_eur)} />
             </View>
+
+            {capture && (
+              <>
+                <SectionTitle title="Scanner" />
+                <View style={styles.grid}>
+                  <Tile label="Ajouts au stock" value={String(capture.captures_total)} hint={`${capture.by_method.barcode ?? 0} codes-barres · ${capture.by_method.receipt ?? 0} tickets · ${capture.by_method.manual ?? 0} saisies`} />
+                  <Tile label="Traités gratuitement" value={pct(capture.free_share)} hint={`${capture.by_method.ai_photo ?? 0} analyses IA payantes`} />
+                  <Tile label="Reconnaissance correcte" value={pct(capture.recognition_rate)} hint={`codes-barres ${pct(capture.recognition_by_method.barcode)} · tickets ${pct(capture.recognition_by_method.receipt)}`} />
+                  <Tile label="Corrections" value={String(capture.corrections)} hint={`${capture.removals} lignes supprimées sur ${capture.items_detected} proposées`} />
+                  <Tile label="IA payante" value={eur(capture.paid_ai_cost_eur, 2)} hint={`${capture.paid_ai_calls} appels`} />
+                  <Tile label="Coût / ajout · / utilisateur" value={eur(capture.avg_cost_per_capture_eur, 4)} hint={eur(capture.avg_cost_per_user_eur, 4)} />
+                </View>
+              </>
+            )}
 
             <SectionTitle title="Utilisateurs" />
             <View style={styles.grid}>

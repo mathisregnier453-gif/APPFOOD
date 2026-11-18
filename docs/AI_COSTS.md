@@ -1,5 +1,10 @@
 # Coûts IA — conception et suivi
 
+> **Depuis le 18/11/2026, l'ajout d'aliments est 100 % gratuit** : codes-barres (Open Food Facts, cache partagé), ticket de caisse et date de péremption lus sur le téléphone (OCR ML Kit, hors ligne). Aucun appel d'IA payante pour le stock. Le scan photo par IA décrit ci-dessous reste dans le code mais n'est plus proposé (réactivable avec `EXPO_PUBLIC_AI_PHOTO_SCAN=true`).
+>
+> L'IA payante ne sert plus qu'aux **recettes** et au **planning** (sections plus bas). Le tableau de bord admin (section *Scanner*) suit : ajouts par méthode, part traitée gratuitement, taux de reconnaissance correcte, corrections, coût IA payant par ajout et par utilisateur.
+
+
 ## Ce qui est déjà en place (phase 1)
 
 | Levier | Effet |

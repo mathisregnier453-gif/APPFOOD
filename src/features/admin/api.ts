@@ -118,3 +118,25 @@ export async function fetchErrors(): Promise<ErrorEntry[]> {
 export const eur = (n: number | null | undefined, digits = 2) =>
   n === null || n === undefined ? '—' : new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', minimumFractionDigits: digits, maximumFractionDigits: digits }).format(n);
 export const pct = (n: number | null | undefined) => (n === null || n === undefined ? '—' : `${(n * 100).toFixed(1).replace('.', ',')} %`);
+
+export interface CaptureStats {
+  captures_total: number;
+  by_method: Partial<Record<'barcode' | 'receipt' | 'manual' | 'ai_photo', number>>;
+  free_share: number | null;
+  paid_ai_calls: number;
+  paid_ai_cost_eur: number;
+  avg_cost_per_capture_eur: number | null;
+  avg_cost_per_user_eur: number | null;
+  items_detected: number;
+  items_confirmed: number;
+  corrections: number;
+  removals: number;
+  recognition_rate: number | null;
+  recognition_by_method: Partial<Record<string, number>>;
+}
+
+export async function fetchCaptureStats(from: string, to: string): Promise<CaptureStats> {
+  const { data, error } = await supabase.rpc('admin_capture_stats', { p_from: from, p_to: to });
+  if (error) throw error;
+  return data as CaptureStats;
+}

@@ -73,7 +73,20 @@ sauge/
 └── docs/
 ```
 
-## Parcours de scan (phase 1)
+## Ajout d'aliments 100 % gratuit (version actuelle)
+
+Trois méthodes, aucun appel d'IA payante, toutes conclues par un écran de vérification (`scan/confirm`) :
+
+| Méthode | Fonctionnement | Coût |
+|---|---|---|
+| Codes-barres en rafale (`scan/barcodes`) | lecture continue (expo-camera) → `barcode-lookup` (cache partagé → Open Food Facts) ; un même produit rescanné = +1 unité | 0 € |
+| Ticket de caisse (`scan/receipt`) | OCR sur le téléphone (ML Kit, hors ligne) → reconstitution des lignes par position → analyse : libellés abrégés, multiplicateurs (« 2 X 0,99 »), pesées, lots (X4), contenances ; en-têtes, totaux, remises, non-alimentaire ignorés | 0 € |
+| Saisie manuelle (`item/new`) | avec lecture de la date | 0 € |
+| Lecture de la date (`ExpiryReader`) | photo de la date → OCR local → DLC/DDM reconnues ; dates de fabrication ignorées ; ambiguïté = rien | 0 € |
+
+Règles : jamais de nom inventé (code inconnu = ligne à compléter), jamais de date inventée, quantité seulement si elle est imprimée. Chaque validation est mesurée dans `capture_events` (proposées / confirmées / corrigées / supprimées) pour suivre la qualité de reconnaissance par méthode.
+
+## Parcours de scan photo par IA (phase 1, désactivé par défaut)
 
 1. L'app crée une `scan_session` (`status = draft`) — RLS interdit tout autre statut.
 2. Chaque photo est **redimensionnée (1280 px) et compressée (JPEG 70 %)** sur le téléphone, puis envoyée dans `scan-photos/{household}/{session}/{n}.jpg` (bucket privé, 2 Mo max, JPEG uniquement).

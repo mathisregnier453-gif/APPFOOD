@@ -67,20 +67,20 @@ export function formatPrice(amount: number, currency: string): string {
 export type PaywallReason = 'scan_quota' | 'recipe_quota' | 'favorites' | 'meal_plan' | 'history' | 'notifications' | 'household' | 'profile';
 
 export const REASON_COPY: Record<PaywallReason, { title: string; subtitle: string }> = {
-  scan_quota: { title: 'Encore des scans à faire ?', subtitle: 'Vos scans du mois sont utilisés. Premium en propose 30 par mois, Famille 60 pour tout le foyer.' },
+  scan_quota: { title: 'Passez à la vitesse supérieure', subtitle: 'Recettes sans compter, planning de la semaine, foyer partagé.' },
   recipe_quota: { title: 'Plus d\'idées de recettes', subtitle: 'Vos 10 recettes du mois sont utilisées. Avec Premium, les recettes sont illimitées (usage raisonnable).' },
   favorites: { title: 'Gardez vos recettes préférées', subtitle: 'Les favoris font partie de Premium.' },
   meal_plan: { title: 'Organisez votre semaine', subtitle: 'Planning des repas, génération automatique et liste de courses de la semaine avec Premium.' },
   history: { title: 'Suivez votre consommation', subtitle: 'L\'historique de consommation fait partie de Premium.' },
   notifications: { title: 'Des rappels plus malins', subtitle: 'Délai d\'alerte personnalisé, rappels des repas et des ingrédients manquants avec Premium.' },
   household: { title: 'Partagez avec votre foyer', subtitle: 'Stock, liste de courses et planning partagés en temps réel, jusqu\'à 6 personnes, avec l\'offre Famille.' },
-  profile: { title: 'Passez à la vitesse supérieure', subtitle: 'Plus de scans, des recettes sans compter, une semaine organisée.' },
+  profile: { title: 'Passez à la vitesse supérieure', subtitle: 'Des recettes sans compter, une semaine organisée, un foyer partagé.' },
 };
 
 /** Lignes de comparaison, construites à partir de la table `plans` (quotas modifiables en admin). */
-export function featureLines(plan: PlanRow): string[] {
+export function featureLines(plan: PlanRow, opts: { aiPhotoScan?: boolean } = {}): string[] {
   const lines = [
-    `${plan.monthly_scan_quota} scans IA par mois${plan.code === 'family' ? ' pour le foyer' : ''}`,
+    ...(opts.aiPhotoScan ? [`${plan.monthly_scan_quota} scans IA par mois${plan.code === 'family' ? ' pour le foyer' : ''}`] : []),
     plan.monthly_recipe_quota === null ? 'Recettes IA illimitées (usage raisonnable)' : `${plan.monthly_recipe_quota} recettes IA par mois`,
   ];
   if (plan.features.meal_plan) lines.push('Planning de la semaine et liste de courses automatique');

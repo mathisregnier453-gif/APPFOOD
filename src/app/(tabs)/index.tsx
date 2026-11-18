@@ -10,6 +10,7 @@ import { useAuth } from '@/features/auth/AuthProvider';
 import { openPaywall, useEntitlements } from '@/features/billing/EntitlementsProvider';
 import { type ActivityEntry, activityText, fetchActivity, fetchMembers, relativeTime } from '@/features/household/api';
 import { useInventory } from '@/features/inventory/useInventory';
+import { AI_PHOTO_SCAN_ENABLED } from '@/features/capture/store';
 import { syncExpiryReminders } from '@/features/notifications/notifications';
 import { rankRecipes } from '@/features/recipes/availability';
 import { useRecipes } from '@/features/recipes/useRecipes';
@@ -111,7 +112,7 @@ export default function HomeScreen() {
         </Card>
       )}
 
-      {plan === 'free' && scansLeft !== null && scansLeft <= 1 && (
+      {AI_PHOTO_SCAN_ENABLED && plan === 'free' && scansLeft !== null && scansLeft <= 1 && (
         <Card onPress={() => openPaywall('scan_quota')} style={styles.upsell}>
           <Ionicons name="sparkles-outline" size={20} color={colors.sageDark} />
           <Text style={[typography.body, { flex: 1 }]}>
@@ -124,9 +125,9 @@ export default function HomeScreen() {
       <Animated.View entering={FadeInDown.delay(80).duration(400)}>
         <Pressable onPress={() => router.push('/scan')} style={({ pressed }) => [styles.scanCard, pressed && { opacity: 0.92 }]}>
           <View style={{ flex: 1, gap: 6 }}>
-            <Text style={styles.scanTitle}>Scanner mon frigo</Text>
+            <Text style={styles.scanTitle}>Ajouter des aliments</Text>
             <Text style={styles.scanSubtitle}>
-              {scansLeft === null ? 'Quelques photos suffisent' : `${scansLeft} scan${scansLeft > 1 ? 's' : ''} restant${scansLeft > 1 ? 's' : ''} ce mois-ci`}
+              Codes-barres ou ticket de caisse · gratuit et illimité
             </Text>
           </View>
           <View style={styles.scanIcon}><Ionicons name="scan" size={26} color={colors.sageDark} /></View>

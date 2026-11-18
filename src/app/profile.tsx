@@ -36,7 +36,6 @@ export default function ProfileScreen() {
     { key: 'expiry', label: 'Péremption proche', hint: 'Un rappel groupé à 9 h, selon votre délai d\'alerte.' },
     { key: 'meal_reminder', label: 'Repas prévus', hint: 'À l\'heure du repas planifié.', premium: true },
     { key: 'missing_ingredient', label: 'Ingrédient manquant', hint: 'La veille à 17 h, s\'il manque quelque chose pour un repas prévu.', premium: true },
-    { key: 'quota', label: 'Quota de scans', hint: 'Quand il ne reste plus qu\'un scan ce mois-ci.' },
     ...(memberCount > 1 ? [
       { key: 'household_activity' as const, label: 'Activité du foyer', hint: 'Quand un membre ajoute des aliments ou rejoint le foyer.' },
       { key: 'shopping_update' as const, label: 'Liste de courses', hint: 'Quand un membre modifie la liste ou range des achats.' },
@@ -81,8 +80,9 @@ export default function ProfileScreen() {
     );
   };
 
-  const used = quota?.scans_used ?? 0;
-  const limit = quota?.scans_limit ?? 0;
+  // Scanner gratuit et illimité : la jauge suit les recettes IA du mois.
+  const used = quota?.recipes_used ?? 0;
+  const limit = quota?.recipes_limit ?? 0;
   const ratio = limit > 0 ? Math.min(1, used / limit) : 0;
 
   return (
@@ -100,11 +100,11 @@ export default function ProfileScreen() {
       <Card style={{ gap: spacing.md }}>
         <View style={styles.rowBetween}>
           <Text style={typography.heading}>Offre {quota ? PLAN_LABEL[quota.plan] : ''}</Text>
-          <Text style={typography.caption}>{used} / {limit} scans</Text>
+          <Text style={typography.caption}>{used} / {limit} recettes IA</Text>
         </View>
         <View style={styles.track}><View style={[styles.fill, { width: `${ratio * 100}%` }]} /></View>
         <Text style={typography.caption}>
-          {quota ? `Renouvellement des scans le ${new Date(quota.period_end).toLocaleDateString('fr-FR')}.` : ''}
+          {quota ? `Renouvellement le ${new Date(quota.period_end).toLocaleDateString('fr-FR')}.` : ''}
         </Text>
         {plan === 'free' ? (
           <Button label="Découvrir Premium et Famille" icon="sparkles-outline" size="md" onPress={() => openPaywall('profile')} />

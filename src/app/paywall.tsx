@@ -8,6 +8,7 @@ import Animated, { FadeInDown } from 'react-native-reanimated';
 import { Button } from '@/components/Button';
 import { Banner, Card, Screen } from '@/components/ui';
 import { useEntitlements } from '@/features/billing/EntitlementsProvider';
+import { AI_PHOTO_SCAN_ENABLED } from '@/features/capture/store';
 import { featureLines, type Offer, type PaidPlan, type PaywallReason, type Period, type PlanRow, REASON_COPY } from '@/features/billing/offers';
 import { billingAvailable, fetchOffers, fetchPlans, manageSubscription, purchase, restore } from '@/features/billing/purchases';
 import { colors, radius, shadow, spacing, typography } from '@/theme';
@@ -136,7 +137,7 @@ export default function PaywallScreen() {
                   </View>
                   <Ionicons name={active ? 'radio-button-on' : 'radio-button-off'} size={22} color={active ? colors.sage : colors.textFaint} />
                 </View>
-                {featureLines(row).map((line) => (
+                {featureLines(row, { aiPhotoScan: AI_PHOTO_SCAN_ENABLED }).map((line) => (
                   <View key={line} style={styles.line}>
                     <Ionicons name="checkmark" size={16} color={colors.sageDark} />
                     <Text style={[typography.body, { flex: 1, fontSize: 14 }]}>{line}</Text>

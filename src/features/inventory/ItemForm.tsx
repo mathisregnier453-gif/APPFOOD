@@ -1,7 +1,8 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { Chip, Field } from '@/components/ui';
 import { CATEGORIES, STORAGE, UNITS } from '@/lib/catalog';
-import { parseFrDate } from '@/lib/expiry';
+import { ExpiryReader } from '@/components/ExpiryReader';
+import { isoToFrInput, parseFrDate } from '@/lib/expiry';
 import type { CategoryId, ExpiryKind, FoodUnit, StorageLocation } from '@/lib/types';
 import { spacing, typography } from '@/theme';
 
@@ -95,6 +96,7 @@ export function ItemForm({ value, onChange, locations, errors, showQuantity = tr
         maxLength={10}
         error={errors.expiry}
       />
+      <ExpiryReader onRead={(iso, kind) => set({ expiryInput: isoToFrInput(iso), expiryKind: kind ?? value.expiryKind })} />
       <View style={styles.wrap}>
         <Chip label="DLC · à consommer jusqu'au" selected={value.expiryKind === 'dlc'} onPress={() => set({ expiryKind: value.expiryKind === 'dlc' ? null : 'dlc' })} />
         <Chip label="DDM · de préférence avant" selected={value.expiryKind === 'ddm'} onPress={() => set({ expiryKind: value.expiryKind === 'ddm' ? null : 'ddm' })} />
