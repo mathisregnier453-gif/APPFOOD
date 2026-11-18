@@ -1,6 +1,8 @@
 import type { Session } from '@supabase/supabase-js';
 import { createContext, type ReactNode, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import * as Linking from 'expo-linking';
 import { supabase } from '@/lib/supabase';
+import { parseAuthRedirect } from './redirect';
 import type { Profile } from '@/lib/types';
 
 interface AuthContextValue {
@@ -44,6 +46,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     });
     return () => sub.subscription.unsubscribe();
   }, [loadProfile]);
+
+  // Lien de confirmation d'e-mail ouvert dans l'app : connexion automatique.
+  useEffect(() => {
+    const handle = async (url: string | null) => {
+      const r = parseAuthRedirect(url);
+      if (r.kind === 'tokens') await supabase.auth.setSession({ access_token: r.accessToken, refresh_token: r.refreshToken });
+      else if (r.kind === 'code') await supabase.auth.exchangeCodeForSession(r.code).catch(() => undefined);
+    };
+    void Linking.getInitialURL().then(handle);
+    const sub = Linking.addEventListener('url', ({ url }) => void handle(url));
+    return () => sub.remove();
+  }, []);
 
   const value = useMemo<AuthContextValue>(
     () => ({

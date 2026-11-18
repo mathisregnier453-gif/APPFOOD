@@ -101,3 +101,13 @@ test('mesure des corrections', () => {
   const stats = captureStats([a, b, c], [a, { ...b, name: 'Emmental râpé' }]);
   assert.deepEqual(stats, { detected: 3, confirmed: 2, corrected: 1, removed: 1 });
 });
+
+import { parseAuthRedirect } from '../src/features/auth/redirect.ts';
+
+test('lien de confirmation : jetons, code PKCE, lien expiré, lien ordinaire', () => {
+  assert.deepEqual(parseAuthRedirect('sauge://#access_token=aaa&expires_in=3600&refresh_token=bbb&type=signup'), { kind: 'tokens', accessToken: 'aaa', refreshToken: 'bbb' });
+  assert.deepEqual(parseAuthRedirect('sauge://?code=xyz'), { kind: 'code', code: 'xyz' });
+  assert.deepEqual(parseAuthRedirect('sauge://#error=access_denied&error_code=otp_expired&error_description=Email+link+is+invalid+or+has+expired'), { kind: 'error', message: 'Email link is invalid or has expired' });
+  assert.deepEqual(parseAuthRedirect('sauge://stock'), { kind: 'none' });
+  assert.deepEqual(parseAuthRedirect(null), { kind: 'none' });
+});

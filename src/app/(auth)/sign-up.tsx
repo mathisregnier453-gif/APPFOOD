@@ -1,3 +1,4 @@
+import * as Linking from 'expo-linking';
 import { router } from 'expo-router';
 import { useState } from 'react';
 import { KeyboardAvoidingView, Platform, Text, View } from 'react-native';
@@ -24,7 +25,8 @@ export default function SignUpScreen() {
     const { data, error: authError } = await supabase.auth.signUp({
       email: email.trim(),
       password,
-      options: { data: { display_name: name.trim() } },
+      // Le lien de confirmation rouvre l'app (sauge://) qui connecte automatiquement.
+      options: { data: { display_name: name.trim() }, emailRedirectTo: Linking.createURL('/') },
     });
     setLoading(false);
     if (authError) {
@@ -41,7 +43,7 @@ export default function SignUpScreen() {
         <View style={{ gap: spacing.lg, marginTop: spacing.xxl * 2 }}>
           <Text style={typography.title}>Vérifiez vos e-mails</Text>
           <Text style={[typography.body, { color: colors.textMuted }]}>
-            Nous avons envoyé un lien de confirmation à {email.trim()}. Ouvrez-le, puis connectez-vous.
+            Nous avons envoyé un lien de confirmation à {email.trim()}. Ouvrez-le depuis ce téléphone : Sauge s'ouvrira et vous serez connecté.
           </Text>
           <Button label="Retour à la connexion" onPress={() => router.back()} />
         </View>
