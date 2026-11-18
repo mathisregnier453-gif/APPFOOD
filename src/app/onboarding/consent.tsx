@@ -8,8 +8,8 @@ import { supabase } from '@/lib/supabase';
 import { colors, spacing, typography } from '@/theme';
 
 const POINTS = [
-  ['camera-outline', 'Vos photos servent uniquement à reconnaître vos aliments.'],
-  ['time-outline', 'Elles sont supprimées après validation du scan, et au plus tard après 7 jours.'],
+  ['camera-outline', 'Codes-barres et tickets de caisse sont lus sur votre téléphone : les photos ne quittent pas l\'appareil.'],
+  ['nutrition-outline', 'Vos allergies et régimes (facultatifs) servent uniquement à filtrer les recettes.'],
   ['lock-closed-outline', "Votre stock n'est visible que par vous (et les membres de votre foyer)."],
   ['trash-outline', 'Vous pouvez supprimer votre compte et toutes vos données à tout moment.'],
 ] as const;
@@ -36,7 +36,7 @@ export default function ConsentScreen() {
       <View style={{ gap: spacing.sm, marginTop: spacing.xl }}>
         <Text style={typography.title}>Vos données, en toute transparence</Text>
         <Text style={[typography.body, { color: colors.textMuted }]}>
-          Pour reconnaître vos aliments, Sauge envoie les photos que vous prenez à un service d'intelligence artificielle, via nos serveurs.
+          Sauge conserve votre stock, vos recettes et vos listes sur des serveurs situés dans l'Union européenne. Aucune publicité, aucune revente de données.
         </Text>
       </View>
       <Card style={{ gap: spacing.lg }}>
