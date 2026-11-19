@@ -19,14 +19,13 @@
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#F7F5F0",
+        "backgroundColor": "#6E8F72",
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false,
       "package": "com.sauge.app",
-      "versionCode": 1,
       "permissions": [
         "android.permission.CAMERA",
         "android.permission.POST_NOTIFICATIONS",
@@ -57,7 +56,8 @@
       [
         "expo-notifications",
         {
-          "color": "#7A9A7E"
+          "color": "#7A9A7E",
+          "icon": "./assets/notification-icon.png"
         }
       ],
       [
@@ -73,6 +73,15 @@
           "url": "https://sentry.io/",
           "organization": "A_RENSEIGNER",
           "project": "sauge"
+        }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 160,
+          "resizeMode": "contain",
+          "backgroundColor": "#F7F5F0"
         }
       ]
     ],
