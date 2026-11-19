@@ -15,7 +15,7 @@ Lait frais|LAIT FRAIS;LAIT FRAIS ENTIER;LAIT FRAIS DEMI;LAIT FRAIS 1/2;LAIT MICR
 Lait de coco|LAIT COCO;LT COCO;CREME COCO|canned|P
 Boisson végétale|BOISSON AVOINE;BOISSON SOJA;BOISSON AMANDE;BOISS VEG;LAIT SOJA;LAIT AMANDE;LAIT AVOINE|drinks|P
 Yaourts nature|YAOURT NAT;YAO NAT;YAOURTS NAT;YT NAT|dairy|F
-Yaourts aux fruits|YAOURT FRUIT;YAO FRUIT;YAO AUX FRUITS|dairy|F
+Yaourts aux fruits|VELOUTE FRUIX;FRUIX;PANACHE FRUIT;YAOURT FRUIT;YAO FRUIT;YAO AUX FRUITS|dairy|F
 Yaourts|YAOURT;YAO;YOGOURT;YOG|dairy|F
 Skyr|SKYR|dairy|F
 Fromage blanc|FROMAGE BLANC;FROM BLANC;FRO BLANC;FR BLANC;FROMAGE BL|dairy|F
@@ -25,7 +25,7 @@ Compote|COMPOTE;COMPOT;POM POTES;GOURDE|canned|P
 Crème fraîche|CREME FRAICHE;CR FRAICHE;CREME EPAISSE;CR EPAISSE;CRM FRAICHE;FRAICHE EPAISSE|dairy|F
 Crème liquide|CREME LIQUIDE;CR LIQ;CREME LIQ;CREME ENTIERE LIQ|dairy|F
 Crème|CREME;CRM|dairy|F
-Beurre doux|BEURRE DOUX;BEUR DOUX;BRE DOUX|dairy|F
+Beurre doux|BEUR DX;BEURRE DX;BEUR MOUL DX;BEURRE MOULE DOUX;BEURRE DOUX;BEUR DOUX;BRE DOUX|dairy|F
 Beurre demi-sel|BEURRE DEMI SEL;BEURRE 1/2 SEL;BEUR 1/2 SEL;BEURRE DS|dairy|F
 Beurre|BEURRE;BEUR|dairy|F
 Margarine|MARGARINE;MARG|dairy|F
@@ -60,8 +60,9 @@ Cuisses de poulet|CUISSE POULET;CUISSES POULET;PILON;HAUT CUISSE;CUISSE PLT|meat
 Poulet entier|POULET ENTIER;POULET PAC;POULET FERMIER;POULET LR;POULET LABEL|meat|F
 Poulet|POULET;PLT|meat|F
 Dinde|DINDE;ESCALOPE DINDE;ESC DINDE;FILET DINDE|meat|F
-Steaks hachés|STEAK HACHE;STK HACHE;STEAKS HACHES;STK HACH;HACHE 5;HACHE 15;HACHE 20;FACON BOUCHERE|meat|F
+Steaks hachés|SH;STEAK HACHE;STK HACHE;STEAKS HACHES;STK HACH;HACHE 5;HACHE 15;HACHE 20;FACON BOUCHERE|meat|F
 Viande hachée|VIANDE HACHEE;VDE HACHEE;HACHE BOEUF;BOEUF HACHE|meat|F
+Boulettes de viande|BOULETTE;BOULETTES|meat|F
 Boeuf|BOEUF;ROTI BOEUF;BAVETTE;ENTRECOTE;FAUX FILET;RUMSTECK;BOURGUIGNON;PAVE BOEUF;STEAK;STK|meat|F
 Porc|PORC;ROTI PORC;ECHINE;COTE PORC;COTES PORC;FILET MIGNON;SAUTE PORC|meat|F
 Veau|VEAU;ESCALOPE VEAU;BLANQUETTE|meat|F
@@ -70,6 +71,7 @@ Chair à saucisse|CHAIR SAUCISSE;CHAIR A SAUC|meat|F
 Saumon fumé|SAUMON FUME;SAUM FUME;SAUMON FUM|fish|F
 Pavés de saumon|PAVE SAUMON;PAVES SAUMON;SAUMON PAVE;FILET SAUMON;PAV SAUM|fish|F
 Saumon|SAUMON;SAUM|fish|F
+Limande|LIMANDE;LIMAND;SOLE;PLIE;MEUNIER|fish|F
 Cabillaud|CABILLAUD;CABILL;CAB|fish|F
 Colin|COLIN;MERLU;LIEU|fish|F
 Crevettes|CREVETTE;CREVETTES;CREV;GAMBAS|fish|F
@@ -130,7 +132,7 @@ Betteraves|BETTERAVE;BETTERAVES|vegetables|F
 Potiron|POTIRON;POTIMARRON;BUTTERNUT;COURGE|vegetables|P
 Herbes fraîches|PERSIL;CIBOULETTE;CORIANDRE;BASILIC;MENTHE;ANETH|vegetables|F
 Gingembre|GINGEMBRE|vegetables|P
-Pâtes|PATES;SPAGHETTI;SPAG;PENNE;COQUILLETTE;COQUILLETTES;TORTI;FUSILLI;TAGLIATELLE;TAGLIA;FARFALLE;MACARONI;LINGUINE;NOUILLES|starches|P
+Pâtes|PATES;SPAGHETTI;ORECCHIETTE;RIGATONI;CANNELLONI;VERMICELLE;SPAG;PENNE;COQUILLETTE;COQUILLETTES;TORTI;FUSILLI;TAGLIATELLE;TAGLIA;FARFALLE;MACARONI;LINGUINE;NOUILLES|starches|P
 Pâtes fraîches|PATES FRAICHES;RAVIOLI;RAVIOLIS;TORTELLINI;GNOCCHI;GNOCCHIS|starches|F
 Lasagnes (feuilles)|LASAGNE;LASAGNES|starches|P
 Riz|RIZ;RIZ BASMATI;RIZ LONG;RIZ THAI;RIZ ROND|starches|P
@@ -140,9 +142,15 @@ Lentilles|LENTILLE;LENTILLES;LENTILLES CORAIL|starches|P
 Pois chiches|POIS CHICHE;POIS CHICHES;PS CHICHES|canned|P
 Haricots rouges|HARICOT ROUGE;HARICOTS ROUGES;FLAGEOLET;HARICOTS BLANCS|canned|P
 Farine|FARINE;FARIN|starches|P
+Sucre vanillé|SUCRE VANILLE;SUCRE VANIL|other|P
 Sucre|SUCRE;SUC;SUCRE POUDRE;CASSONADE|other|P
 Levure|LEVURE|other|P
-Pain|PAIN;BAGUETTE;BAG TRADITION;BAGUETTE TRADI;PAIN COMPLET;PAIN CAMPAGNE;BOULE|starches|P
+Pain|PAIN;BAGUETTE;PAVE RUSTIQUE;RUSTIQUE;BAG TRADITION;BAGUETTE TRADI;PAIN COMPLET;BOULE|starches|P
+Pains au lait|PAIN AU LAIT;PAINS AU LAIT;PAIN LAIT|starches|P
+Brioche|BRIOCHE|starches|P
+Croissants|CROISSANT;CROISSANTS|starches|P
+Pains au chocolat|PAIN AU CHOCOLAT;PAIN CHOCOLAT;PAINS CHOCOLAT;CHOCOLATINE|starches|P
+Pain de campagne|PAIN DE CAMPAGNE;PAIN CAMPAGNE|starches|P
 Pain de mie|PAIN DE MIE;PAIN MIE;HARRYS;AMERICAN SANDWICH|starches|P
 Biscottes|BISCOTTE;BISCOTTES|starches|P
 Tortillas|TORTILLA;TORTILLAS;WRAP;WRAPS;FAJITAS|starches|P
@@ -151,6 +159,7 @@ Pâte à pizza|PATE A PIZZA;PATE PIZZA|fresh|F
 Céréales|CEREALE;CEREALES;MUESLI;GRANOLA;CORN FLAKES;FLOCONS AVOINE;FLOCON AVOINE|starches|P
 Biscuits|BISCUIT;BISCUITS;GATEAU;GATEAUX;COOKIES;MADELEINE;MADELEINES;GALETTE;PETIT BEURRE;BN|other|P
 Chocolat|CHOCOLAT;CHOC;CHOCO;TABLETTE CHOC|other|P
+Confiseries|TWIX;MARS;SNICKERS;BOUNTY;KITKAT;KIT KAT;MON CHERI;ROCHER;PRESTIGE;BONBON;BONBONS;HARIBO;PATE DE FRUIT;PAT FRUTIMAX;FRUTIMAX;M&M;MALTESERS;KINDER|other|P
 Pâte à tartiner|PATE A TARTINER;NUTELLA;PATE TARTINER|other|P
 Confiture|CONFITURE;CONF|other|P
 Miel|MIEL|other|P
@@ -162,7 +171,7 @@ Vinaigre|VINAIGRE;VINAIG|other|P
 Moutarde|MOUTARDE;MOUT|canned|P
 Mayonnaise|MAYONNAISE;MAYO|canned|F
 Ketchup|KETCHUP|canned|P
-Sauce tomate|SAUCE TOMATE;SCE TOMATE;COULIS;PULPE TOMATE;TOMATES CONCASSEES;PASSATA;CONCENTRE TOMATE|canned|P
+Sauce tomate|SCE TOMATE;SAUCE TOMATE;SCE TOMATE;COULIS;PULPE TOMATE;TOMATES CONCASSEES;PASSATA;CONCENTRE TOMATE|canned|P
 Pesto|PESTO|canned|P
 Sauce soja|SAUCE SOJA;SCE SOJA|canned|P
 Bouillon|BOUILLON;KUB;CUBE|other|P
@@ -193,6 +202,9 @@ Poisson pané|POISSON PANE;PANES;FISH STICK;BATONNETS POISSON|frozen|Z
 Nuggets|NUGGETS;NUGGET|frozen|Z
 `;
 
+/** Familles trop larges pour servir de nom : on garde le libellé du ticket (« Twix xl »). */
+export const GENERIC_ENTRIES = new Set(['Confiseries', 'Plat préparé', 'Épices', 'Biscuits', 'Sodas', 'Fromage', 'Jus de fruits', 'Conserve de légumes', 'Boisson végétale']);
+
 export interface LexiconEntry {
   name: string;
   keys: string[][];
@@ -215,6 +227,7 @@ const OCR_LETTERS: Record<string, string> = { '0': 'O', '1': 'I', '5': 'S', '8':
 
 /** Corrige les mots « surtout alphabétiques » (YA0URT -> YAOURT), sans toucher aux nombres. */
 export function fixOcrWord(word: string): string {
+  if (/[./-]/.test(word)) return word.split(/([./-])/).map((part) => (/^[./-]$/.test(part) ? part : fixOcrWord(part))).join('');
   // Contenances et lots (« 50CL », « 2X125G », « X4 ») : ce sont de vrais chiffres.
   if (/^\d+([.,]\d+)?(KG|G|GR|L|CL|ML|%)$/.test(word) || /^\d*X\d+/.test(word) || /^\d+X$/.test(word)) return word;
   const letters = (word.match(/[A-Z]/g) ?? []).length;
@@ -247,13 +260,35 @@ function wordMatches(ticket: string, key: string): boolean {
 export interface LexiconMatch {
   entry: LexiconEntry;
   score: number;
+  /** le premier mot significatif du libellé fait partie de la forme reconnue (c'est bien ce produit) */
+  coversHead: boolean;
+}
+
+// Marques et mots d'emballage : jamais le « produit » d'un libellé.
+export const BRANDS = new Set(`LUSTUCRU BARILLA PANZANI LACTEL CANDIA PRESIDENT BONDUELLE DANONE NESTLE HARRYS PASQUIER ALSA FRUIX
+  MATERNE ANDROS CHARAL FLEURY MICHON HERTA SOCOPA BRIDEL PAYSAN BRETON LESIEUR PUGET AMORA MAILLE HEINZ BENEDICTA
+  NUTELLA FERRERO KINDER MILKA LINDT POULAIN BANANIA RICORE NESCAFE CARTE NOIRE LAVAZZA LIPTON TWININGS KELLOGGS
+  CHEERIOS JACQUIN BLEDINA YOPLAIT GERVAIS LACTALIS SODIAAL ENTREMONT LEERDAMMER BABYBEL KIRI BOURSIN GALBANI ZAPETTI
+  MCCAIN FINDUS PICARD MARIE TIPIAK TAUREAU AILE UNCLE BENS BUITONI WILLIAM SAURIN CASSEGRAIN CHARLES ROUSSEL
+  LU BN PRINCE AUGUSTIN BJORG GERBLE CARREFOUR AUCHAN LECLERC INTERMARCHE MONOPRIX FRANPRIX CASINO
+  REFLETS REPERE NETTO LEADER PRICE SIMPL`.split(/\s+/));
+const PACKAGING = new Set(['BARQUETTE', 'SACHET', 'FILET', 'BOITE', 'BTE', 'PACK', 'LOT', 'BIO', 'CAT', 'CAT1', 'CAT2', 'EXTRA', 'VRAC',
+  'FRANCE', 'ESPAGNE', 'ITALIE', 'MAROC', 'ORIGINE', 'OFFERT', 'OFF', 'PROMO', 'GRATUIT', 'FORMAT', 'FAMILIAL', 'MAXI', 'MINI', 'GEANT',
+  'BOUTEILLE', 'BOUT', 'ASS', 'ASSORT', 'ASSORTIMENT', 'PET', 'BRIQUE', 'POT', 'POTS', 'PIECE', 'PIECES', 'UNITE', 'TRANCHE', 'TRANCHES', 'TR', 'AU', 'AUX', 'DE', 'DU', 'DES', 'LA', 'LE', 'LES', 'ET', 'A']);
+
+/** Mot « significatif » : ni marque, ni emballage, ni quantité, au moins 2 lettres. */
+export function isSignificant(word: string): boolean {
+  return /^[A-Z]{2,}$/.test(word) && !BRANDS.has(word) && !PACKAGING.has(word);
 }
 
 /** Meilleure entrée du lexique pour un libellé normalisé (majuscules, sans accents). */
 export function matchLexicon(label: string): LexiconMatch | null {
   const words = label.split(/[\s.'/-]+/).filter(Boolean).map(fixOcrWord);
+  const head = words.findIndex(isSignificant);
   let best: LexiconMatch | null = null;
   for (const entry of LEXICON) {
+    let entryScore = 0;
+    let coversHead = false;
     for (const key of entry.keys) {
       const used = new Set<number>();
       let score = 0;
@@ -261,14 +296,20 @@ export function matchLexicon(label: string): LexiconMatch | null {
         const idx = words.findIndex((w, i) => !used.has(i) && wordMatches(w, k));
         if (idx < 0) { score = -1; break; }
         used.add(idx);
-        score += k.length + (words[idx] === k ? 1 : 0);
+        score += Math.min(k.length, words[idx].length) + (words[idx] === k ? 1 : 0);
       }
-      // À score égal, la forme la plus longue (la plus précise) l'emporte.
-      if (score > 0 && (!best || score > best.score)) best = { entry, score };
+      if (score <= 0) continue;
+      entryScore = Math.max(entryScore, score);
+      coversHead ||= head >= 0 && used.has(head);
     }
+    if (entryScore <= 0) continue;
+    // Le nom d'un produit vient en tête du libellé (« BOULETTES au boeuf », « PAIN au lait ») :
+    // une entrée qui couvre ce premier mot l'emporte.
+    const total = entryScore + (coversHead ? 6 : 0);
+    if (!best || total > best.score) best = { entry, score: total, coversHead };
   }
   // Un seul mot très court reconnu (« LT », « CAB ») : trop peu sûr si le libellé est long.
-  if (best && best.score < 4 && words.length > 2) return null;
+  if (best && !best.coversHead && best.score < 4 && words.length > 2) return null;
   return best;
 }
 
