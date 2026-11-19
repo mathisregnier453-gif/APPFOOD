@@ -3,7 +3,7 @@ import { test } from 'node:test';
 import { featureLines, matchOffers, type PlanRow } from '../src/features/billing/offers.ts';
 
 const plans: PlanRow[] = [
-  { code: 'free', label: 'Gratuit', monthly_scan_quota: 3, monthly_recipe_quota: 10, max_members: 1, store_product_monthly: null, store_product_yearly: null, features: {} },
+  { code: 'free', label: 'Gratuit', monthly_scan_quota: 3, monthly_recipe_quota: 6, max_members: 1, store_product_monthly: null, store_product_yearly: null, features: {} },
   { code: 'premium', label: 'Premium', monthly_scan_quota: 30, monthly_recipe_quota: null, max_members: 1, store_product_monthly: 'sauge_premium_monthly', store_product_yearly: 'sauge_premium_yearly', features: { meal_plan: true, favorites: true, smart_notifications: true, consumption_history: true } },
   { code: 'family', label: 'Famille', monthly_scan_quota: 60, monthly_recipe_quota: null, max_members: 6, store_product_monthly: 'sauge_family_monthly', store_product_yearly: 'sauge_family_yearly', features: { meal_plan: true, shared_household: true } },
 ];
@@ -33,5 +33,5 @@ test('comparatif généré depuis la table des offres', () => {
   assert.equal(featureLines(plans[1], { aiPhotoScan: true })[0], '30 scans IA par mois');
   assert.ok(premium.includes('Idées de recettes illimitées'));
   assert.ok(featureLines(plans[2]).some((l) => l.includes('6 personnes')));
-  assert.equal(featureLines(plans[0])[0], '10 idées de recettes par mois');
+  assert.equal(featureLines(plans[0])[0], '6 idées de recettes par mois');
 });

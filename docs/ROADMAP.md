@@ -23,7 +23,7 @@
 - Préférences alimentaires : régimes, 14 allergènes réglementaires + saisie libre, aliments évités — filtrage serveur des recettes
 - Onglet Recettes (idées, favoris, « réalisables maintenant »), fiche recette, favoris
 - Accueil : recettes recommandées
-- Quota de recettes (10/mois en gratuit, plafond « usage raisonnable » en payant), cache 24 h
+- Quota de recettes (6/mois en gratuit, plafond « usage raisonnable » en payant), cache 24 h
 
 **Vérifié** : typecheck, 32 tests unitaires serveur + app, 40 tests SQL, bundle iOS Metro.
 **Non vérifié** : appel IA réel, notifications sur appareil réel.

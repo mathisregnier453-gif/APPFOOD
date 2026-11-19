@@ -4,7 +4,7 @@
 
 | Offre | Mensuel | Annuel (-20 %) | Scans / mois | Recettes / mois | Fonctions |
 |---|---:|---:|---:|---:|---|
-| Gratuit | 0 € | — | 3 | 10 | Stock, scan, recettes, liste de courses manuelle, rappel de péremption (2 jours avant) |
+| Gratuit | 0 € | — | 3 | 6 | Stock, scan, recettes, liste de courses manuelle, rappel de péremption (2 jours avant) |
 | Premium | 4,99 € | 47,90 € | 30 | illimité* | + planning, génération de la semaine, liste de courses de la semaine, favoris, historique de consommation, rappels intelligents (délai personnalisé, repas, ingrédients manquants) |
 | Famille | 6,99 € | 67,10 € | 60 (foyer) | illimité* | + foyer partagé jusqu'à 6 personnes (stock, courses, planning, scans), notifications d'activité |
 

@@ -15,14 +15,13 @@ reset role;
 update public.profiles set suspended_at = null;
 select set_config('test.b_household', (select id::text from public.households where owner_id = '00000000-0000-0000-0000-00000000000b'), false);
 
--- Quota gratuit : 10 recettes, accordé partiellement, jamais dépassé
+-- Quota gratuit : 6 recettes, accordé partiellement, jamais dépassé
 set role service_role;
 select pg_temp.assert((select granted = 4 from public.consume_recipe_quota(current_setting('test.b_household')::uuid, 4)), 'recettes 1-4 accordées');
-select pg_temp.assert((select granted = 4 from public.consume_recipe_quota(current_setting('test.b_household')::uuid, 4)), 'recettes 5-8 accordées');
-select pg_temp.assert((select granted = 2 and recipes_used = 10 from public.consume_recipe_quota(current_setting('test.b_household')::uuid, 4)), 'seulement 2 accordées (reste du quota gratuit)');
-select pg_temp.assert((select granted = 0 and recipes_used = 10 from public.consume_recipe_quota(current_setting('test.b_household')::uuid, 3)), 'quota atteint : 0 accordée, aucun dépassement');
+select pg_temp.assert((select granted = 2 and recipes_used = 6 from public.consume_recipe_quota(current_setting('test.b_household')::uuid, 4)), 'seulement 2 accordées (reste du quota gratuit)');
+select pg_temp.assert((select granted = 0 and recipes_used = 6 from public.consume_recipe_quota(current_setting('test.b_household')::uuid, 3)), 'quota atteint : 0 accordée, aucun dépassement');
 select public.refund_recipe_quota(current_setting('test.b_household')::uuid, 1);
-select pg_temp.assert((select recipes_used = 9 from public.usage_quotas where household_id = current_setting('test.b_household')::uuid), 'recette non livrée remboursée');
+select pg_temp.assert((select recipes_used = 5 from public.usage_quotas where household_id = current_setting('test.b_household')::uuid), 'recette non livrée remboursée');
 reset role;
 
 -- Le client ne peut pas consommer le quota ni forger une recette

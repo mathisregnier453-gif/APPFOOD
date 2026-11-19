@@ -68,7 +68,7 @@ export type PaywallReason = 'scan_quota' | 'recipe_quota' | 'favorites' | 'meal_
 
 export const REASON_COPY: Record<PaywallReason, { title: string; subtitle: string }> = {
   scan_quota: { title: 'Passez à la vitesse supérieure', subtitle: 'Recettes sans compter, planning de la semaine, foyer partagé.' },
-  recipe_quota: { title: 'Plus d\'idées de recettes', subtitle: 'Vos 10 idées de recettes du mois sont utilisées. Avec Premium, elles sont illimitées.' },
+  recipe_quota: { title: 'Plus d\'idées de recettes', subtitle: 'Vos idées de recettes gratuites du mois sont utilisées. Avec Premium, elles sont illimitées.' },
   favorites: { title: 'Gardez vos recettes préférées', subtitle: 'Les favoris font partie de Premium.' },
   meal_plan: { title: 'Organisez votre semaine', subtitle: 'Planning des repas, génération automatique et liste de courses de la semaine avec Premium.' },
   history: { title: 'Suivez votre consommation', subtitle: 'L\'historique de consommation fait partie de Premium.' },

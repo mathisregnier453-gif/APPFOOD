@@ -9,4 +9,4 @@ createdb "$DB"
 trap 'dropdb --if-exists "$DB"' EXIT
 cat tests/sql/00_supabase_stub.sql | "${PSQL[@]}"
 for f in migrations/*.sql; do cat "$f" | "${PSQL[@]}"; done
-for t in tests/sql/[1-9]*_*.sql; do cat "$t" | "${PSQL[@]}"; done
+cat tests/sql/[1-9]*_*.sql | "${PSQL[@]}"   # une seule session : les fichiers partagent leurs variables de test

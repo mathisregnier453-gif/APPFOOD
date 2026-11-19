@@ -34,7 +34,7 @@ exception when insufficient_privilege then raise notice 'OK: planning réservé 
 end $$;
 select public.update_item_quantity((select id from public.food_items where name = 'Riz'), 0.5, 'consumed');
 select pg_temp.assert((select count(*) = 0 from public.consumption_logs), 'historique masqué en offre gratuite');
-select pg_temp.assert((select scans_limit = 3 and recipes_limit = 10 from public.get_quota_status(current_setting('test.c_household')::uuid)), 'quotas gratuits : 3 scans, 10 recettes');
+select pg_temp.assert((select scans_limit = 3 and recipes_limit = 6 from public.get_quota_status(current_setting('test.c_household')::uuid)), 'quotas gratuits : 3 scans, 6 recettes');
 reset role;
 select pg_temp.assert((select count(*) = 1 from public.consumption_logs where item_name = 'Riz'), 'historique tout de même enregistré');
 

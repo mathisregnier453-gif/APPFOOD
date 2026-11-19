@@ -58,7 +58,7 @@ Chiffrement en transit : oui. Suppression à la demande : oui (dans l'app).
 > • Code-barres, ajout manuel, historique de consommation.
 > • Foyer partagé : stock, courses et repas synchronisés pour toute la famille.
 >
-> Gratuit pour découvrir (3 scans et 10 recettes par mois). Premium et Famille pour aller plus loin. Vos photos ne servent qu'à reconnaître vos aliments et sont supprimées sous 7 jours.
+> Gratuit pour découvrir (scanner illimité et 6 idées de recettes par mois). Premium et Famille pour aller plus loin. Vos photos ne servent qu'à reconnaître vos aliments et sont supprimées sous 7 jours.
 
 **Mots-clés** (iOS, 100 car.) : frigo,anti-gaspi,recettes,courses,péremption,inventaire,repas,planning,cuisine,stock
 
