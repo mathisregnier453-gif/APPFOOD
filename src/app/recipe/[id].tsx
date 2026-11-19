@@ -2,8 +2,9 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import * as Haptics from 'expo-haptics';
 import { router, useFocusEffect, useLocalSearchParams } from 'expo-router';
 import { useCallback, useMemo, useState } from 'react';
-import { ActivityIndicator, Alert, Pressable, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Alert, Linking, Pressable, StyleSheet, Text, View } from 'react-native';
 import { RecipeCover, recipePhoto } from '@/components/RecipeCard';
+import { unsplashLink } from '@/features/recipes/photos';
 import { Button } from '@/components/Button';
 import { Banner, Card, Screen, SectionTitle } from '@/components/ui';
 import { useAuth } from '@/features/auth/AuthProvider';
@@ -116,7 +117,14 @@ export default function RecipeScreen() {
     <Screen padded={false}>
       <View>
         <RecipeCover recipe={recipe} height={recipePhoto(recipe) ? 260 : 220} rounded={false} />
-        {recipePhoto(recipe) ? <Text style={styles.credit} numberOfLines={1}>Photo : {recipePhoto(recipe)!.credit}</Text> : null}
+        {recipePhoto(recipe) ? (
+          <Text style={styles.credit} numberOfLines={1}>
+            Photo :{' '}
+            <Text style={styles.creditLink} onPress={() => void Linking.openURL(unsplashLink(recipePhoto(recipe)!.authorUrl))}>{recipePhoto(recipe)!.author}</Text>
+            {' '}sur{' '}
+            <Text style={styles.creditLink} onPress={() => void Linking.openURL(unsplashLink('https://unsplash.com'))}>Unsplash</Text>
+          </Text>
+        ) : null}
         <View style={styles.topBar}>
           <Pressable accessibilityLabel="Retour" onPress={() => router.back()} style={styles.roundBtn}>
             <Ionicons name="chevron-down" size={22} color={colors.text} />
@@ -202,6 +210,7 @@ function Fact({ label, value }: { label: string; value: string }) {
 }
 
 const styles = StyleSheet.create({
+  creditLink: { textDecorationLine: 'underline' },
   credit: { position: 'absolute', right: 8, bottom: 6, maxWidth: '80%', fontSize: 10, color: '#fff', textShadowColor: 'rgba(0,0,0,0.7)', textShadowRadius: 3 },
   topBar: { position: 'absolute', top: spacing.md, left: spacing.lg, right: spacing.lg, flexDirection: 'row', justifyContent: 'space-between' },
   roundBtn: { width: 42, height: 42, borderRadius: 21, backgroundColor: 'rgba(255,255,255,0.92)', alignItems: 'center', justifyContent: 'center' },

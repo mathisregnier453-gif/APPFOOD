@@ -10,7 +10,7 @@ import type { Recipe } from '@/lib/types';
 import { colors, radius, spacing, typography } from '@/theme';
 import { Card } from './ui';
 
-/** Photo réelle d'une recette du catalogue (intégrée à l'app), avec son crédit. */
+/** Photo réelle d'une recette du catalogue (Unsplash, gardée en cache sur le téléphone), avec son crédit. */
 export function recipePhoto(recipe: Pick<Recipe, 'title'>) {
   return RECIPE_PHOTOS[recipe.title] ?? null;
 }
@@ -25,7 +25,7 @@ export function RecipeCover({ recipe, height = 120, rounded = true }: { recipe: 
   if (photo) {
     return (
       <View style={[styles.cover, { height, backgroundColor: colors.sageMist }, rounded && { borderRadius: radius.md }]}>
-        <Image source={photo.source} style={StyleSheet.absoluteFill} contentFit="cover" transition={250} cachePolicy="memory-disk" accessibilityLabel={`Photo : ${recipe.title}`} />
+        <Image source={{ uri: photo.uri }} style={StyleSheet.absoluteFill} contentFit="cover" transition={250} cachePolicy="memory-disk" accessibilityLabel={`Photo : ${recipe.title}`} />
         {meal && (
           <View style={styles.mealPill}>
             <Ionicons name={meal.icon} size={12} color={colors.textMuted} />
