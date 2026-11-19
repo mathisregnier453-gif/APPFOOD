@@ -27,28 +27,29 @@ const TICKET = [
 test('ticket : produits extraits, lignes de service ignorées', () => {
   const { items, ignored } = parseReceipt(TICKET);
   const names = items.map((i) => i.name);
-  assert.deepEqual(names, ['Yaourt nature', 'Lait demi écrémé', 'Steak haché', 'Tomates grappe', 'Emmental rape']);
+  assert.deepEqual(names, ['Yaourts nature', 'Lait demi-écrémé', 'Steaks hachés', 'Tomates', 'Emmental râpé']);
   assert.ok(ignored >= 6, 'total, CB, TVA, remise, sac, en-tête ignorés');
 });
 
 test('ticket : quantités lues sur le ticket uniquement', () => {
   const { items } = parseReceipt(TICKET);
   const by = Object.fromEntries(items.map((i) => [i.name, i]));
-  assert.deepEqual([by['Yaourt nature'].quantity, by['Yaourt nature'].unit], [8, 'piece'], '2 lots de 4');
-  assert.deepEqual([by['Lait demi écrémé'].quantity, by['Lait demi écrémé'].unit], [2, 'l'], '« 2 X 0,99 » sous une bouteille de 1 L');
+  assert.deepEqual([by['Yaourts nature'].quantity, by['Yaourts nature'].unit], [8, 'piece'], '2 lots de 4');
+  assert.deepEqual([by['Lait demi-écrémé'].quantity, by['Lait demi-écrémé'].unit], [2, 'l'], '« 2 X 0,99 » sous une bouteille de 1 L');
   const jus = parseReceipt(['JUS ORA 50CL  1,20 A', '3 X 1,20']).items[0];
   assert.deepEqual([jus.quantity, jus.unit], [1500, 'ml'], '3 × 50 cl');
-  assert.deepEqual([by['Steak haché'].quantity, by['Steak haché'].unit], [2, 'piece']);
-  assert.deepEqual([by['Tomates grappe'].quantity, by['Tomates grappe'].unit], [0.856, 'kg'], 'ligne de pesée');
-  assert.deepEqual([by['Emmental rape'].quantity, by['Emmental rape'].unit], [200, 'g']);
+  assert.deepEqual([by['Steaks hachés'].quantity, by['Steaks hachés'].unit], [2, 'piece']);
+  assert.deepEqual([by['Tomates'].quantity, by['Tomates'].unit], [0.856, 'kg'], 'ligne de pesée');
+  assert.deepEqual([by['Emmental râpé'].quantity, by['Emmental râpé'].unit], [200, 'g']);
 });
 
 test('ticket : catégories et confiance', () => {
   const { items } = parseReceipt(TICKET);
   const by = Object.fromEntries(items.map((i) => [i.name, i]));
-  assert.equal(by['Yaourt nature'].category, 'dairy');
-  assert.equal(by['Tomates grappe'].category, 'vegetables');
-  assert.equal(by['Tomates grappe'].confidence, 'low', 'pas de prix sur la ligne => à vérifier');
+  assert.equal(by['Yaourts nature'].category, 'dairy');
+  assert.equal(by['Tomates'].category, 'vegetables');
+  assert.equal(by['Tomates'].confidence, 'high', 'prix lu sur la ligne de pesée');
+  assert.equal(parseReceipt(['ARTICLE MYSTERE XZ  3,10 A']).items[0]?.confidence ?? 'low', 'low', 'produit inconnu => à vérifier');
 });
 
 test('ticket : aucun produit inventé sur un texte sans articles', () => {
@@ -95,11 +96,12 @@ test('codes-barres : rafale, +1 sur un produit déjà scanné, inconnu à compl�
 });
 
 test('mesure des corrections', () => {
-  const a = makeDraft({ name: 'Yaourt nature', category: 'dairy', quantity: 4, unit: 'piece' });
+  const a = makeDraft({ name: 'Yaourts nature', category: 'dairy', quantity: 4, unit: 'piece' });
   const b = makeDraft({ name: 'Emmental rape', category: 'cheese', quantity: 200, unit: 'g' });
   const c = makeDraft({ name: 'Sac', category: 'other', quantity: null, unit: 'piece' });
   const stats = captureStats([a, b, c], [a, { ...b, name: 'Emmental râpé' }]);
   assert.deepEqual(stats, { detected: 3, confirmed: 2, corrected: 1, removed: 1 });
+  assert.equal(captureStats([a], [{ ...a, storage: 'freezer' }]).corrected, 1, 'un rangement modifié compte comme une correction');
 });
 
 import { parseAuthRedirect } from '../src/features/auth/redirect.ts';
@@ -110,4 +112,33 @@ test('lien de confirmation : jetons, code PKCE, lien expiré, lien ordinaire', (
   assert.deepEqual(parseAuthRedirect('sauge://#error=access_denied&error_code=otp_expired&error_description=Email+link+is+invalid+or+has+expired'), { kind: 'error', message: 'Email link is invalid or has expired' });
   assert.deepEqual(parseAuthRedirect('sauge://stock'), { kind: 'none' });
   assert.deepEqual(parseAuthRedirect(null), { kind: 'none' });
+});
+
+test('ticket : rangement proposé selon le produit et les indices du ticket', () => {
+  const { items } = parseReceipt([
+    'BANANES CAT1        1,79 A', 'PDT CHAIR FERME 2,5KG 2,99 A', 'LAIT 1/2 ECR UHT 1L  0,95 A', 'LAIT FRAIS ENTIER 1L 1,25 A',
+    'EPINARDS SURG 1KG    2,10 A', 'GLACE VANILLE 1L     3,50 A', 'JBN BLC 4TR          2,49 A', 'SAUMON FUME 4TR      4,99 A',
+    'PATES PENNE 500G     0,89 A', 'OEUFS PLEIN AIR X12  3,20 A',
+  ]);
+  const where = Object.fromEntries(items.map((i) => [i.name, i.storage]));
+  assert.deepEqual(where, {
+    'Bananes': 'pantry', 'Pommes de terre': 'pantry', 'Lait demi-écrémé': 'pantry', 'Lait frais': 'fridge',
+    'Épinards': 'freezer', 'Glaces': 'freezer', 'Jambon blanc': 'fridge', 'Saumon fumé': 'fridge',
+    'Pâtes': 'pantry', 'Oeufs': 'fridge',
+  });
+});
+
+test('ticket : erreurs de lecture corrigées, pas de confusion entre produits proches', () => {
+  const names = (rows: string[]) => parseReceipt(rows).items.map((i) => i.name);
+  assert.deepEqual(names(['YA0URT NAT X4   1,89 A', 'BEURRE D0UX 250G  2,35 A', 'CAMEMBERT  O,99 A']), ['Yaourts nature', 'Beurre doux', 'Camembert']);
+  assert.deepEqual(names(['PATE DE CAMPAGNE  1,99 A', 'PATES COQUILLETTES  0,79 A']), ['Pâté', 'Pâtes']);
+  assert.deepEqual(names(['CHOCOLAT AU LAIT  1,50 A', 'TOMME DE SAVOIE  3,20 A']), ['Chocolat', 'Tomme']);
+  assert.deepEqual(names(['JUS ORA 50CL  1,20 A']), ["Jus d'orange"]);
+  const jus = parseReceipt(['JUS ORA 50CL  1,20 A']).items[0];
+  assert.deepEqual([jus.quantity, jus.unit], [500, 'ml'], 'contenance « 50CL » non altérée par la correction');
+});
+
+test('ticket : produits non alimentaires ignorés', () => {
+  const { items } = parseReceipt(['SOPALIN X2  2,10 A', 'CROQ CHAT 2KG  5,90 A', 'LIQ VAISS  1,50 A', 'POMMES GOLDEN 1KG  2,20 A']);
+  assert.deepEqual(items.map((i) => i.name), ['Pommes']);
 });

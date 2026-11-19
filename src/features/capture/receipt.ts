@@ -1,8 +1,9 @@
 // Ticket de caisse -> produits (module pur, testé). Analyse 100 % locale et gratuite.
 // Règle : on n'invente rien. Pas de date (un ticket n'en contient pas pour les
 // produits) ; une quantité n'est proposée que si elle est écrite sur le ticket.
-import { guessCategory } from '../planning/shopping.ts';
-import type { CategoryId, FoodUnit } from '@/lib/types';
+import { defaultStorageFor, guessCategory } from '../planning/shopping.ts';
+import { fixOcrWord, matchLexicon, storageHint } from './lexicon.ts';
+import type { CategoryId, FoodUnit, StorageKind } from '@/lib/types';
 
 // -----------------------------------------------------------------------------
 // 1. Reconstitution des lignes : l'OCR rend souvent le libellé et le prix comme
@@ -40,6 +41,8 @@ export interface ReceiptItem {
   quantity: number | null;
   unit: FoodUnit;
   category: CategoryId;
+  /** rangement proposé : habitudes du produit, ou indice écrit sur le ticket (SURG, UHT…) */
+  storage: StorageKind;
   /** high : libellé + prix lus clairement ; low : à vérifier par l'utilisateur */
   confidence: 'high' | 'low';
   source: string;
@@ -52,7 +55,9 @@ const SKIP = [
   'NET A PAYER', 'A PAYER', 'REGLEMENT', 'CONSIGNE', 'MONTANT', 'HT ', 'TTC', 'CHEQUE', 'VISA', 'MASTERCARD', 'WWW', 'HTTP',
 ];
 
-const NON_FOOD = ['SAC ', 'SACS', 'LESSIVE', 'PAPIER TOIL', 'ESSUIE', 'SHAMP', 'DENTIF', 'EPONGE', 'PILES', 'LITIERE', 'COUCHES', 'MOUCHOIR', 'DEO ', 'GEL DOUCHE', 'LIQ VAISS', 'NETTOY', 'JAVEL', 'ASSOUP'];
+const NON_FOOD = ['SAC ', 'SACS', 'SOPALIN', 'ALU ', 'ALUMINIUM', 'FILM ', 'SAVON', 'COTON', 'RASOIR', 'BRIQUET', 'CHARBON', 'AMPOULE',
+  'CROQ CHAT', 'CROQUETTES CHAT', 'CROQUETTES CHIEN', 'PATEE', 'CHAT ', 'CHIEN ', 'LINGETTE', 'SERVIETTE', 'PAPIER', 'BOUGIE', 'ADOUCISSANT',
+  'LAIT CORPS', 'LAIT DEMAQ', 'CREME MAINS', 'CREME VISAGE', 'DEODORANT', 'TAMPON', 'PROTEGE', 'BROSSE', 'VAISSELLE', 'POUBELLE', 'LESSIVE', 'PAPIER TOIL', 'ESSUIE', 'SHAMP', 'DENTIF', 'EPONGE', 'PILES', 'LITIERE', 'COUCHES', 'MOUCHOIR', 'DEO ', 'GEL DOUCHE', 'LIQ VAISS', 'NETTOY', 'JAVEL', 'ASSOUP'];
 
 // Abréviations courantes des tickets français.
 const ABBREVIATIONS: Record<string, string> = {
@@ -71,7 +76,7 @@ function normalize(s: string): string {
   return s.toUpperCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/\s+/g, ' ').trim();
 }
 
-const PRICE_AT_END = /^(.*?)\s+(-?\d{1,4}[.,]\d{2})\s*(?:€|EUR|E)?\s*(?:[A-D0-9]|\*)?$/;
+const PRICE_AT_END = /^(.*?)\s+(-?\d{1,4}[.,]\d{2})\s*(?:€|EUR|E)?\s*(?:[A-D0-9]{1,2}|\*)?$/;
 const MULTIPLIER_LINE = /^(\d{1,3})\s*[X*]\s*\d{1,4}[.,]\d{2}/;
 const WEIGHT_LINE = /^(\d{1,3}[.,]\d{1,3})\s*KG\s*[X*]/;
 const PACK = /(?:^|\s)X\s?(\d{1,2})(?=\s|$)|(?:^|\s)(\d{1,2})\s?X(?=\s|\d|$)/;
@@ -108,7 +113,11 @@ export function parseReceipt(rows: string[]): { items: ReceiptItem[]; ignored: n
   const items: ReceiptItem[] = [];
   let ignored = 0;
 
-  const prepared = rows.map((r) => normalize(r).replace(/(\d),(\d)/g, '$1.$2'));
+  const prepared = rows.map((r) => normalize(r)
+    .replace(/\b[O0](?=[.,]\d{2}\b)/g, '0')            // « O,99 » lu à la place de « 0,99 »
+    .replace(/(\d)\s?[,.]\s?(\d{2})(?!\d)/g, '$1.$2')  // « 1, 99 » -> « 1.99 »
+    .replace(/(\d),(\d)/g, '$1.$2')
+    .split(' ').map(fixOcrWord).join(' '));
   for (const [index, line] of prepared.entries()) {
     const raw = rows[index];
     if (!line) continue;
@@ -142,10 +151,13 @@ export function parseReceipt(rows: string[]): { items: ReceiptItem[]; ignored: n
     if ((label.match(/[A-Z]/g) ?? []).length < 3) { ignored++; continue; }       // pas un libellé
     if (NON_FOOD.some((k) => ` ${label} `.includes(` ${k.trim()}`))) { ignored++; continue; }
 
-    const name = cleanName(label);
+    // Produit connu du lexique : nom propre, catégorie et rangement fiables.
+    const known = matchLexicon(label);
+    const name = known ? known.entry.name : cleanName(label);
     if (name.length < 3) { ignored++; continue; }
     const { quantity, unit } = readQuantity(label);
-    const category = guessCategory(name);
+    const category = known ? known.entry.category : guessCategory(name);
+    const storage = storageHint(label) ?? (known ? known.entry.storage : defaultStorageFor(category));
 
     // Doublon (même produit acheté deux fois) : on additionne les unités.
     const twin = items.find((i) => i.name.toLowerCase() === name.toLowerCase() && i.unit === unit);
@@ -154,8 +166,9 @@ export function parseReceipt(rows: string[]): { items: ReceiptItem[]; ignored: n
       continue;
     }
     items.push({
-      name, quantity, unit, category,
-      confidence: priced && category !== 'other' && name.length >= 4 ? 'high' : 'low',
+      name, quantity, unit, category, storage,
+      // Sûr seulement si le produit est reconnu ET que son prix a été lu.
+      confidence: known && (priced || WEIGHT_LINE.test(next) || MULTIPLIER_LINE.test(next)) ? 'high' : 'low',
       source: raw.trim(),
     });
   }

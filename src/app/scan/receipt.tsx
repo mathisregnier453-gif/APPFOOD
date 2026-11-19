@@ -32,7 +32,7 @@ export default function ReceiptCapture() {
         setError("Aucun article n'a pu être lu. Reprenez la photo plus nette et mieux éclairée, ou ajoutez vos produits à la main.");
         return;
       }
-      setCapture('receipt', items.map((i) => makeDraft({ name: i.name, category: i.category, quantity: i.quantity, unit: i.unit, needsReview: i.confidence === 'low' })));
+      setCapture('receipt', items.map((i) => makeDraft({ name: i.name, category: i.category, quantity: i.quantity, unit: i.unit, storage: i.storage, needsReview: i.confidence === 'low' })));
       router.replace('/scan/confirm');
     } catch {
       setError('La lecture du ticket a échoué. Réessayez avec une photo plus nette.');

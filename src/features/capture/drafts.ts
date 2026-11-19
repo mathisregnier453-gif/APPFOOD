@@ -26,12 +26,12 @@ export function defaultStorage(category: CategoryId): StorageKind {
 }
 
 export function makeDraft(p: {
-  name: string; category: CategoryId; quantity: number | null; unit: FoodUnit; barcode?: string | null; needsReview?: boolean;
+  name: string; category: CategoryId; quantity: number | null; unit: FoodUnit; barcode?: string | null; needsReview?: boolean; storage?: StorageKind;
 }): CaptureDraft {
   return {
     key: p.barcode ? `bc-${p.barcode}` : `d-${Math.random().toString(36).slice(2, 10)}`,
     name: p.name, category: p.category, quantity: p.quantity, unit: p.unit,
-    expiryInput: '', expiryKind: null, storage: defaultStorage(p.category), barcode: p.barcode ?? null,
+    expiryInput: '', expiryKind: null, storage: p.storage ?? defaultStorage(p.category), barcode: p.barcode ?? null,
     original: { name: p.name, quantity: p.quantity, unit: p.unit, category: p.category },
     needsReview: p.needsReview ?? false,
   };
@@ -79,7 +79,7 @@ export function captureStats(initial: CaptureDraft[], final: CaptureDraft[]): Ca
     const f = finalByKey.get(d.key);
     if (!f) { removed++; continue; }
     const o = f.original;
-    if (f.name.trim().toLowerCase() !== o.name.trim().toLowerCase() || f.category !== o.category || f.unit !== o.unit || f.quantity !== o.quantity) corrected++;
+    if (f.name.trim().toLowerCase() !== o.name.trim().toLowerCase() || f.category !== o.category || f.unit !== o.unit || f.quantity !== o.quantity || f.storage !== d.storage) corrected++;
   }
   return { detected: initial.length, confirmed: final.length, corrected, removed };
 }

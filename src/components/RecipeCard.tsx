@@ -1,21 +1,42 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { Image } from 'expo-image';
 import { StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import type { Availability } from '@/features/recipes/availability';
 import { mealById } from '@/features/recipes/catalog';
 import { categoryById } from '@/lib/catalog';
+import { RECIPE_PHOTOS } from '@/features/recipes/photos';
 import type { Recipe } from '@/lib/types';
 import { colors, radius, spacing, typography } from '@/theme';
 import { Card } from './ui';
 
+/** Photo réelle d'une recette du catalogue (intégrée à l'app), avec son crédit. */
+export function recipePhoto(recipe: Pick<Recipe, 'title'>) {
+  return RECIPE_PHOTOS[recipe.title] ?? null;
+}
+
 /**
- * Visuel du plat. Aucune photo n'est générée (coût et risque d'image trompeuse) :
- * une illustration sobre basée sur l'ingrédient principal et le type de repas.
+ * Visuel du plat : vraie photo libre de droits quand la recette en a une (jamais
+ * d'image générée), sinon une illustration sobre selon l'ingrédient principal.
  */
 export function RecipeCover({ recipe, height = 120, rounded = true }: { recipe: Recipe; height?: number; rounded?: boolean }) {
+  const photo = recipePhoto(recipe);
+  const meal = mealById(recipe.meal_type);
+  if (photo) {
+    return (
+      <View style={[styles.cover, { height, backgroundColor: colors.sageMist }, rounded && { borderRadius: radius.md }]}>
+        <Image source={photo.source} style={StyleSheet.absoluteFill} contentFit="cover" transition={250} cachePolicy="memory-disk" accessibilityLabel={`Photo : ${recipe.title}`} />
+        {meal && (
+          <View style={styles.mealPill}>
+            <Ionicons name={meal.icon} size={12} color={colors.textMuted} />
+            <Text style={styles.mealLabel}>{meal.label}</Text>
+          </View>
+        )}
+      </View>
+    );
+  }
   const main = [...recipe.recipe_ingredients].sort((a, b) => a.position - b.position).find((i) => !i.is_staple && i.category_id);
   const cat = categoryById(main?.category_id ?? 'other');
-  const meal = mealById(recipe.meal_type);
   return (
     <View style={[styles.cover, { height, backgroundColor: cat.tint }, rounded && { borderRadius: radius.md }]}>
       <View style={[styles.blob, { width: height * 1.1, height: height * 1.1, borderRadius: height }]} />
