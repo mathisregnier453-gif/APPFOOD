@@ -35,3 +35,15 @@ test('comparatif généré depuis la table des offres', () => {
   assert.ok(featureLines(plans[2]).some((l) => l.includes('6 personnes')));
   assert.equal(featureLines(plans[0])[0], '6 idées de recettes par mois');
 });
+
+test('Test Store RevenueCat : une offre par formule, paquets mensuel / annuel standard', () => {
+  const p = (id: string, product: string, price: number) => ({ identifier: id, product: { identifier: product, price, priceString: `${price} €`, currencyCode: 'EUR' } });
+  const offerings = [
+    { identifier: 'sauge_premium_mensuel', availablePackages: [p('$rc_monthly', 'Premium', 4.99), p('$rc_annual', 'Premium1', 47.9)] },
+    { identifier: 'famille', availablePackages: [p('$rc_monthly', 'Famille', 6.99), p('$rc_annual', 'Famille1', 67.1)] },
+  ];
+  const offers = matchOffers(offerings[0].availablePackages, plans, offerings);
+  assert.deepEqual(offers.map((o) => `${o.plan}/${o.period}/${o.pkg.product.identifier}`), [
+    'premium/monthly/Premium', 'premium/yearly/Premium1', 'family/monthly/Famille', 'family/yearly/Famille1',
+  ]);
+});

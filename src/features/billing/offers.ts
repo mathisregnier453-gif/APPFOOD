@@ -34,15 +34,33 @@ export interface Offer<P extends StorePackageLike = StorePackageLike> {
 
 const baseId = (id: string) => id.split(':')[0];
 
-export function matchOffers<P extends StorePackageLike>(packages: P[], plans: PlanRow[]): Offer<P>[] {
+export interface OfferingLike<P extends StorePackageLike = StorePackageLike> {
+  identifier: string;
+  availablePackages: P[];
+}
+
+const PLAN_OFFERING_NAMES: Record<PaidPlan, string[]> = { premium: ['premium'], family: ['family', 'famille'] };
+
+/**
+ * Associe les paquets RevenueCat aux offres de Sauge.
+ * 1. Par identifiant de produit store (`plans.store_product_*`) dans l'offre courante.
+ * 2. À défaut, par offre dédiée : une offre RevenueCat dont l'identifiant contient
+ *    le code de l'offre (« premium », « family » / « famille »), avec les paquets
+ *    standard mensuel ($rc_monthly) et annuel ($rc_annual).
+ */
+export function matchOffers<P extends StorePackageLike>(packages: P[], plans: PlanRow[], offerings: OfferingLike<P>[] = []): Offer<P>[] {
   const offers: Offer<P>[] = [];
   for (const plan of plans) {
     if (plan.code === 'free') continue;
+    const names = PLAN_OFFERING_NAMES[plan.code as PaidPlan] ?? [plan.code];
+    const dedicated = offerings.find((o) => names.some((n) => o.identifier.toLowerCase().includes(n)));
     for (const period of ['monthly', 'yearly'] as Period[]) {
       const productId = period === 'monthly' ? plan.store_product_monthly : plan.store_product_yearly;
-      const pkg = productId ? packages.find((p) => baseId(p.product.identifier) === productId) : undefined;
+      const pkg =
+        (productId ? packages.find((p) => baseId(p.product.identifier) === productId) : undefined) ??
+        dedicated?.availablePackages.find((p) => p.identifier === (period === 'monthly' ? '$rc_monthly' : '$rc_annual'));
       if (!pkg) continue;
-      offers.push({ plan: plan.code, period, pkg, priceString: pkg.product.priceString, price: pkg.product.price, savingsPercent: null, perMonth: null });
+      offers.push({ plan: plan.code as PaidPlan, period, pkg, priceString: pkg.product.priceString, price: pkg.product.price, savingsPercent: null, perMonth: null });
     }
   }
   for (const yearly of offers.filter((o) => o.period === 'yearly')) {

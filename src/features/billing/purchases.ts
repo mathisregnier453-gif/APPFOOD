@@ -39,7 +39,7 @@ export async function fetchPlans(): Promise<PlanRow[]> {
 export async function fetchOffers(plans: PlanRow[]): Promise<Offer<PurchasesPackage>[]> {
   if (!billingAvailable()) return [];
   const offerings = await Purchases.getOfferings();
-  return matchOffers(offerings.current?.availablePackages ?? [], plans);
+  return matchOffers(offerings.current?.availablePackages ?? [], plans, Object.values(offerings.all ?? {}));
 }
 
 export type PurchaseOutcome = 'purchased' | 'cancelled';

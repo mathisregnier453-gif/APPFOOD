@@ -41,6 +41,14 @@ export function baseProductId(id: unknown): string | null {
   return typeof id === 'string' && id ? id.split(':')[0] : null;
 }
 
+/** Mensuel ou annuel : par identifiant produit connu, sinon par la durée de la période en cours. */
+function periodOf(product: string | null, plan: PlanMapping, sub: Record<string, unknown>): 'monthly' | 'yearly' {
+  if (product !== null && product === plan.yearly) return 'yearly';
+  if (product !== null && product === plan.monthly) return 'monthly';
+  const start = time(sub.purchase_date), end = time(sub.expires_date);
+  return start !== null && end !== null && end - start > 45 * 86_400_000 ? 'yearly' : 'monthly';
+}
+
 export function deriveSubscription(body: unknown, plans: PlanMapping[], now: number): DerivedSubscription | null {
   const subscriber = obj(obj(body)?.subscriber);
   if (!subscriber) return null;
@@ -80,7 +88,7 @@ export function deriveSubscription(body: unknown, plans: PlanMapping[], now: num
       position: plan.position,
       derived: {
         plan: plan.code,
-        period: product !== null && product === plan.yearly ? 'yearly' : 'monthly',
+        period: periodOf(product, plan, sub),
         status,
         product_id: product,
         store: typeof sub.store === 'string' ? sub.store : null,

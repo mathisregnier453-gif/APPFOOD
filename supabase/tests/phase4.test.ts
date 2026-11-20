@@ -87,3 +87,11 @@ test('comparaison du secret en temps constant', () => {
   assert.ok(!safeEqual('Bearer abd', 'Bearer abc'));
   assert.ok(!safeEqual('', 'Bearer abc'));
 });
+
+test('produit inconnu (Test Store) : période déduite de la durée', () => {
+  const d = deriveSubscription(subscriber(
+    { family: { expires_date: '2027-11-21T12:00:00Z', product_identifier: 'Famille1' } },
+    { Famille1: { purchase_date: '2026-11-21T12:00:00Z', expires_date: '2027-11-21T12:00:00Z', store: 'test_store', is_sandbox: true } },
+  ), plans, NOW)!;
+  assert.deepEqual([d.plan, d.period, d.is_sandbox], ['family', 'yearly', true]);
+});
