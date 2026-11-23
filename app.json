@@ -83,7 +83,8 @@
           "resizeMode": "contain",
           "backgroundColor": "#F7F5F0"
         }
-      ]
+      ],
+      "./plugins/withEmbeddedDebugBundle"
     ],
     "scheme": "sauge",
     "experiments": {

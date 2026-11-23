@@ -23,9 +23,7 @@
       "env": {
         "SENTRY_DISABLE_AUTO_UPLOAD": "true",
         "EXPO_PUBLIC_SUPABASE_URL": "https://fnkoiofhvgpgqvocnwcc.supabase.co",
-        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "sb_publishable_PnyUbglPR0wB7hnGkKGd4A_XijTjyel",
-        "EXPO_PUBLIC_REVENUECAT_ANDROID_KEY": "test_EYhvmyFqsyHsXfiHpIMduQevvTa",
-        "EXPO_PUBLIC_REVENUECAT_IOS_KEY": "test_EYhvmyFqsyHsXfiHpIMduQevvTa"
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "sb_publishable_PnyUbglPR0wB7hnGkKGd4A_XijTjyel"
       },
       "android": {
         "buildType": "apk"
@@ -37,6 +35,18 @@
       "env": {
         "EXPO_PUBLIC_SUPABASE_URL": "https://fnkoiofhvgpgqvocnwcc.supabase.co",
         "EXPO_PUBLIC_SUPABASE_ANON_KEY": "sb_publishable_PnyUbglPR0wB7hnGkKGd4A_XijTjyel"
+      }
+    },
+    "test-achats": {
+      "extends": "preview",
+      "env": {
+        "SAUGE_EMBED_DEBUG_BUNDLE": "1",
+        "EXPO_PUBLIC_REVENUECAT_ANDROID_KEY": "test_EYhvmyFqsyHsXfiHpIMduQevvTa",
+        "EXPO_PUBLIC_REVENUECAT_IOS_KEY": "test_EYhvmyFqsyHsXfiHpIMduQevvTa"
+      },
+      "android": {
+        "buildType": "apk",
+        "gradleCommand": ":app:assembleDebug"
       }
     }
   },
