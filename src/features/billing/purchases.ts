@@ -1,4 +1,4 @@
-import { Platform } from 'react-native';
+import { Alert, Platform } from 'react-native';
 import Purchases, { type PurchasesPackage } from 'react-native-purchases';
 import { invokeFunction, supabase } from '@/lib/supabase';
 import { matchOffers, type Offer, type PlanRow } from './offers';
@@ -75,6 +75,16 @@ export async function syncSubscription(): Promise<void> {
   await invokeFunction('subscription-sync', {});
 }
 
+/** Ouvre la gestion de l'abonnement dans le store, ou explique pourquoi c'est impossible. */
 export async function manageSubscription(): Promise<void> {
+  const info = billingAvailable() ? await Purchases.getCustomerInfo().catch(() => null) : null;
+  if (!info?.managementURL) {
+    Alert.alert(
+      'Abonnement',
+      "Votre offre n'a pas été achetée depuis ce compte " + (Platform.OS === 'ios' ? 'Apple' : 'Google Play') +
+        " : il n'y a rien à gérer ici. Pour toute question, écrivez-nous depuis la page Confidentialité.",
+    );
+    return;
+  }
   await Purchases.showManageSubscriptions();
 }

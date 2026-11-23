@@ -111,7 +111,7 @@ export default function ProfileScreen() {
         ) : (
           <View style={{ gap: spacing.sm }}>
             {plan === 'premium' && <Button label="Passer à Famille" variant="secondary" size="md" onPress={() => openPaywall('profile')} />}
-            {billingAvailable() && <Button label="Gérer mon abonnement" variant="ghost" size="md" onPress={() => void manageSubscription().catch(() => undefined)} />}
+            {<Button label="Gérer mon abonnement" variant="ghost" size="md" onPress={() => void manageSubscription().catch(() => undefined)} />}
           </View>
         )}
       </Card>
